@@ -28,36 +28,111 @@
 .cvinput_box {
   position: relative;
   z-index: 1;
-  width: min(760px, 92%);
+  width: min(800px, 93%);
   margin: 2rem auto 4rem;
   border-radius: var(--radius-xl);
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-lg), 0 0 60px rgba(124, 106, 247, 0.05);
   overflow: hidden;
 }
 
-.heading {
-  background: linear-gradient(135deg, rgba(124, 106, 247, 0.15) 0%, rgba(167, 139, 250, 0.08) 100%);
-  border-bottom: 1px solid var(--border-subtle);
-  color: var(--text-primary);
-  height: 4.5rem;
+/* ---- Step Indicator ---- */
+
+.stepIndicatorBar {
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem 1rem;
+  background: linear-gradient(135deg, rgba(124,106,247,0.1) 0%, rgba(167,139,250,0.05) 100%);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
+.stepPill {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255,255,255,0.02);
+  transition: all var(--transition-base);
+  cursor: default;
+  user-select: none;
+}
+
+.stepPillIcon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.stepPillLabel {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  font-family: 'Inter', sans-serif;
+}
+
+.stepPill--active {
+  background: linear-gradient(135deg, rgba(124,106,247,0.25), rgba(167,139,250,0.15));
+  border-color: rgba(124,106,247,0.5);
+  box-shadow: 0 0 12px rgba(124,106,247,0.2);
+}
+
+.stepPill--active .stepPillLabel {
+  color: var(--accent-secondary);
+  font-weight: 600;
+}
+
+.stepPill--done {
+  background: rgba(124,106,247,0.08);
+  border-color: rgba(124,106,247,0.2);
+}
+
+.stepPill--done .stepPillLabel {
+  color: var(--accent-secondary);
+  opacity: 0.7;
+}
+
+/* ---- Section Heading ---- */
+
+.sectionHeading {
+  padding: 1.5rem 2rem 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: linear-gradient(180deg, rgba(124,106,247,0.06) 0%, transparent 100%);
+}
+
+.sectionHeadingTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.sectionHeadingSubtitle {
+  margin-top: 0.3rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+/* ---- Progress bar ---- */
+
 .linearprogress {
-  padding: 1.25rem 1.5rem 0;
+  padding: 1rem 1.75rem 0;
 }
 
 .cvinputform {
   padding: 0;
 }
+
+/* ---- Details component area ---- */
 
 .detailsComponent {
   margin: 1.25rem 1.5rem;
@@ -68,13 +143,64 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
+  min-height: 160px;
 }
+
+/* ---- Empty state ---- */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2.5rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border-default);
+  background: rgba(124,106,247,0.03);
+  text-align: center;
+}
+
+.emptyStateIcon {
+  font-size: 2.2rem;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+.emptyStateText {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+}
+
+.emptyStateHint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
+}
+
+/* ---- Pagination ---- */
 
 .pagination {
   display: flex;
   gap: 0.75rem;
   padding: 1rem 1.5rem 1.5rem;
   align-items: center;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.paginationSpacer {
+  flex: 1;
+}
+
+.paginationPageLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
+  padding: 0 0.5rem;
+  white-space: nowrap;
 }
 
 /* ---- Sub-layout components ---- */
@@ -174,6 +300,60 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
+}
+
+.skillLangIntMain {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  transition: border-color var(--transition-base);
+}
+
+.skillLangIntMain:hover {
+  border-color: var(--border-default);
+}
+
+.skillLangIntInput {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.skillLangIntInput .MuiTextField-root {
+  flex: 1;
+}
+
+.skillLangIntdisplay {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.detailsMain {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detailsHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .achievementMain {
@@ -524,6 +704,27 @@
     width: 95%;
   }
 
+  .stepIndicatorBar {
+    gap: 0.35rem;
+    padding: 0.9rem 1rem 0.7rem;
+  }
+
+  .stepPill {
+    padding: 0.25rem 0.6rem;
+  }
+
+  .stepPillLabel {
+    display: none;
+  }
+
+  .sectionHeading {
+    padding: 1.1rem 1.25rem 0.6rem;
+  }
+
+  .sectionHeadingTitle {
+    font-size: 1.1rem;
+  }
+
   .detailsComponent {
     margin: 1rem;
     padding: 1.25rem;
@@ -567,3 +768,4 @@
     gap: 1.5rem;
   }
 }
+
