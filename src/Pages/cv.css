@@ -212,10 +212,58 @@
 }
 
 .workExperienceProjMain {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 1rem;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Wrapper for each Work/Project entry — hosts absolute delete button */
+.entryCardWrapper {
+  position: relative;
+}
+
+/* Absolute-positioned delete button: top-right of the entry card */
+.entryDeleteBtn {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.entryDeleteBtn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.45);
+}
+
+/* Inline delete button for Education / Achievement rows */
+.inlineDeleteBtn {
+  flex-shrink: 0;
+  align-self: center;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.inlineDeleteBtn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.45);
 }
 
 .workExperienceProjTitle {
@@ -230,12 +278,14 @@
   gap: 0.75rem;
 }
 
+/* Card gets padding-right to not collide with absolute delete button */
 .workExperienceProjSub {
   display: grid;
   grid-template-columns: 1fr 1fr;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   padding: 1.25rem;
+  padding-right: 3.25rem;
   border-radius: var(--radius-md);
   gap: 1rem;
   transition: border-color var(--transition-base);
@@ -247,24 +297,8 @@
 
 .detailUnit {
   display: flex;
-}
-
-.workexpprojdelete {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
-  min-width: 48px;
-  min-height: 48px;
-}
-
-.workexpprojdelete:hover {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.4);
-  cursor: pointer;
+  gap: 0.25rem;
 }
 
 .educationMain {
@@ -274,10 +308,9 @@
 }
 
 .educationSub {
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  display: flex;
+  align-items: flex-start;
   gap: 1rem;
-  align-items: center;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   padding: 1.25rem;
@@ -289,17 +322,22 @@
   border-color: var(--border-default);
 }
 
+.educationFields {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.educationFields > * {
+  flex: 1 1 130px;
+  min-width: 120px;
+}
+
 .skillLang {
   display: flex;
   gap: 1rem;
   justify-content: space-between;
-}
-
-.skillLangIntdisplayunit {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
 }
 
 .skillLangIntMain {
@@ -312,10 +350,21 @@
   border-radius: var(--radius-md);
   padding: 1rem;
   transition: border-color var(--transition-base);
+  min-width: 0;
 }
 
 .skillLangIntMain:hover {
   border-color: var(--border-default);
+}
+
+/* Section label inside skill/lang/interest box */
+.skillLangIntTitle {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
 }
 
 .skillLangIntInput {
@@ -324,16 +373,82 @@
   gap: 0.5rem;
 }
 
+.skillLangIntInput .MuiFormControl-root,
 .skillLangIntInput .MuiTextField-root {
   flex: 1;
+  min-width: 0;
 }
 
+/* Add chip button */
+.addChipBtn {
+  flex-shrink: 0;
+  background: rgba(124, 106, 247, 0.12);
+  border: 1px solid rgba(124, 106, 247, 0.3);
+  border-radius: var(--radius-sm);
+  color: var(--accent-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.addChipBtn:hover {
+  background: rgba(124, 106, 247, 0.22);
+  border-color: rgba(124, 106, 247, 0.55);
+  color: #c4b5fd;
+}
+
+/* Chip tag list */
 .skillLangIntdisplay {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-height: 1rem;
+}
+
+/* Individual chip */
+.skillChip {
+  display: inline-flex;
+  align-items: center;
   gap: 0.25rem;
-  max-height: 200px;
-  overflow-y: auto;
+  padding: 0.22rem 0.35rem 0.22rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(124, 106, 247, 0.12);
+  border: 1px solid rgba(124, 106, 247, 0.25);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  transition: border-color var(--transition-fast);
+}
+
+.skillChip:hover {
+  border-color: rgba(124, 106, 247, 0.4);
+}
+
+/* × delete button inside chip */
+.chipDeleteBtn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 0 0.1rem;
+  border-radius: 999px;
+  transition: color var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+
+.chipDeleteBtn:hover {
+  color: #f87171;
 }
 
 .detailsMain {
@@ -346,14 +461,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size: 0.72rem;
+  font-weight: 700;
   color: var(--text-secondary);
   font-family: 'Inter', sans-serif;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 0.25rem 0;
   border-bottom: 1px solid var(--border-subtle);
+}
+
+.detailsEmptyHint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  padding: 0.75rem 0;
+  font-style: italic;
 }
 
 .achievementMain {
@@ -363,10 +487,9 @@
 }
 
 .achivementsub {
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  display: flex;
+  align-items: flex-start;
   gap: 1rem;
-  align-items: center;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   padding: 1.25rem;
@@ -376,6 +499,18 @@
 
 .achivementsub:hover {
   border-color: var(--border-default);
+}
+
+.achievementFields {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.achievementFields > * {
+  flex: 1 1 160px;
+  min-width: 140px;
 }
 
 /* =====================

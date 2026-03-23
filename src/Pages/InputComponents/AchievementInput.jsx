@@ -1,56 +1,31 @@
 import React from "react";
-import { IconButton, TextField } from "@mui/material";
-import {
-  WhiteTextField,
-  GradientButton,
-  WhiteDeleteIcon,
-} from "../../MUIStyledComponents";
-import { Delete } from "@mui/icons-material";
+import { WhiteTextField, WhiteDeleteIcon } from "../../MUIStyledComponents";
 
-function AchievementInput({
-  handleAchievementChange,
-  index,
-  value,
-  handleAchievementDelete,
-}) {
+function AchievementInput({ handleAchievementChange, index, value, handleAchievementDelete }) {
   return (
-    <>
-      <div className="achivementsub">
+    <div className="achivementsub">
+      <div className="achievementFields">
         <WhiteTextField
-          id="outlined-basic"
           label="Achievement Title"
           variant="outlined"
           type="text"
           name="title"
           value={value ? value.title : ""}
-          onChange={(event) => {
-            handleAchievementChange(event, index);
-          }}
+          onChange={(event) => handleAchievementChange(event, index)}
         />
-
         <WhiteTextField
-          id="outlined-basic"
-          label="Achievement Subtitle"
+          label="Subtitle / Description"
           variant="outlined"
           type="text"
           name="subtitle"
           value={value ? value.subtitle : ""}
-          onChange={(event) => {
-            handleAchievementChange(event, index);
-          }}
+          onChange={(event) => handleAchievementChange(event, index)}
         />
-        <div className="workexpprojdelete">
-          <IconButton
-            aria-label="delete"
-            onClick={() => {
-              handleAchievementDelete(index);
-            }}
-          >
-            <WhiteDeleteIcon />
-          </IconButton>
-        </div>
       </div>
-    </>
+      <div className="inlineDeleteBtn" onClick={() => handleAchievementDelete(index)}>
+        <WhiteDeleteIcon />
+      </div>
+    </div>
   );
 }
 

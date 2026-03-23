@@ -204,7 +204,7 @@ function CVInputBox() {
             workExperienceObj
               .filter((obj) => Object.keys(obj).length > 0)
               .map((obj, index) => (
-                <React.Fragment key={index}>
+                <div key={index} className="entryCardWrapper">
                   <WorkExperienceInput
                     index={index}
                     value={workExperienceObj[index]}
@@ -212,10 +212,10 @@ function CVInputBox() {
                     workExperienceObj={workExperienceObj}
                     handleWorkExpDelete={handleWorkExpDelete}
                   />
-                  <div className="workexpprojdelete" onClick={() => handleWorkExpDelete(index)}>
-                    <IconButton aria-label="delete"><WhiteDeleteIcon /></IconButton>
+                  <div className="entryDeleteBtn" onClick={() => handleWorkExpDelete(index)}>
+                    <WhiteDeleteIcon />
                   </div>
-                </React.Fragment>
+                </div>
               ))}
           {workExperienceObj.length === 0 && (
             <div className="emptyState">
@@ -277,7 +277,7 @@ function CVInputBox() {
             projectObj
               .filter((obj) => Object.keys(obj).length > 0)
               .map((obj, index) => (
-                <React.Fragment key={index}>
+                <div key={index} className="entryCardWrapper">
                   <ProjectsInput
                     index={index}
                     setProjectObj={setProjectObj}
@@ -285,10 +285,10 @@ function CVInputBox() {
                     value={projectObj[index]}
                     handleProjDelete={handleProjDelete}
                   />
-                  <div className="workexpprojdelete" onClick={() => handleProjDelete(index)}>
-                    <IconButton aria-label="delete"><WhiteDeleteIcon /></IconButton>
+                  <div className="entryDeleteBtn" onClick={() => handleProjDelete(index)}>
+                    <WhiteDeleteIcon />
                   </div>
-                </React.Fragment>
+                </div>
               ))}
           {projectObj.length === 0 && (
             <div className="emptyState">
