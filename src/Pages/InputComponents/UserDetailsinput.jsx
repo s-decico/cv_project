@@ -2,6 +2,7 @@ import React from "react";
 import {
   WhiteTextField,
 } from "../../MUIStyledComponents";
+import { STRINGS } from "../../Constants/strings";
 import "../cv.css";
 
 function UserDetailsInput({ handleUserDetails, userDetails, errors }) {
@@ -10,7 +11,7 @@ function UserDetailsInput({ handleUserDetails, userDetails, errors }) {
       <div className="userDetails">
         <WhiteTextField
           id="outlined-basic"
-          label="Full Name"
+          label={STRINGS.LABELS.FULL_NAME}
           variant="outlined"
           type="text"
           name="fullname"
@@ -21,7 +22,7 @@ function UserDetailsInput({ handleUserDetails, userDetails, errors }) {
         />
         <WhiteTextField
           id="outlined-basic"
-          label="Email"
+          label={STRINGS.LABELS.EMAIL}
           variant="outlined"
           type="text"
           name="email"
@@ -32,7 +33,7 @@ function UserDetailsInput({ handleUserDetails, userDetails, errors }) {
         />
         <WhiteTextField
           id="outlined-basic"
-          label="Phone no"
+          label={STRINGS.LABELS.PHNO}
           variant="outlined"
           type="text"
           name="phno"
@@ -43,7 +44,7 @@ function UserDetailsInput({ handleUserDetails, userDetails, errors }) {
         />
         <WhiteTextField
           id="outlined-basic"
-          label="Address"
+          label={STRINGS.LABELS.ADDRESS}
           variant="outlined"
           type="text"
           name="address"
@@ -54,7 +55,7 @@ function UserDetailsInput({ handleUserDetails, userDetails, errors }) {
         />
         <WhiteTextField
           id="outlined-basic"
-          label="LinkedIn URL"
+          label={STRINGS.LABELS.LINKEDIN}
           variant="outlined"
           type="text"
           name="linkedin"
@@ -65,7 +66,7 @@ function UserDetailsInput({ handleUserDetails, userDetails, errors }) {
         />
         <WhiteTextField
           id="outlined-basic"
-          label="Github URL"
+          label={STRINGS.LABELS.GITHUB}
           variant="outlined"
           type="text"
           name="github"

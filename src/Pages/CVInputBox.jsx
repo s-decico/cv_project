@@ -14,10 +14,8 @@ import WorkExperienceInput from "./InputComponents/WorkExperienceInput";
 import axios from "axios";
 import cookie from "js-cookie";
 import Navbar from "../Component/Navbar";
-import {
-  GradientButton,
-  WhiteDeleteIcon,
-} from "../MUIStyledComponents";
+import { WhiteDeleteIcon, GradientButton } from "../MUIStyledComponents";
+import { STRINGS } from "../Constants/strings";
 import UserDetailsInput from "./InputComponents/UserDetailsinput";
 
 import LinearWithValueLabel from "../MUIComponents/LinearProgressBar";
@@ -323,13 +321,13 @@ function CVInputBox() {
               ))}
           {workExperienceObj.length === 0 && (
             <div className="emptyState">
-              <span className="emptyStateIcon">💼</span>
-              <p className="emptyStateText">No work experience added yet.</p>
-              <p className="emptyStateHint">Click the button below to add your first role.</p>
+              <span className="emptyStateIcon">{STRINGS.UI.EMPTY_WORK.icon}</span>
+              <p className="emptyStateText">{STRINGS.UI.EMPTY_WORK.title}</p>
+              <p className="emptyStateHint">{STRINGS.UI.EMPTY_WORK.hint}</p>
             </div>
           )}
-          <GradientButton variant="outlined" type="button" onClick={renderWorkExperience} sx={{ borderRadius: "30px" }}>
-            + Add Work Experience
+          <GradientButton variant="outlined" type="button" onClick={renderWorkExperience} sx={{ borderRadius: "30px", width: "100%" }}>
+            {STRINGS.UI.ADD_WORK}
           </GradientButton>
         </div>
       );
@@ -353,13 +351,13 @@ function CVInputBox() {
               ))}
           {educationObj.length === 0 && (
             <div className="emptyState">
-              <span className="emptyStateIcon">🎓</span>
-              <p className="emptyStateText">No education entries added yet.</p>
-              <p className="emptyStateHint">Click the button below to add your qualifications.</p>
+              <span className="emptyStateIcon">{STRINGS.UI.EMPTY_EDU.icon}</span>
+              <p className="emptyStateText">{STRINGS.UI.EMPTY_EDU.title}</p>
+              <p className="emptyStateHint">{STRINGS.UI.EMPTY_EDU.hint}</p>
             </div>
           )}
           <GradientButton variant="outlined" type="button" onClick={renderEducation} sx={{ borderRadius: "30px", width: "100%" }}>
-            + Add Education
+            {STRINGS.UI.ADD_EDU}
           </GradientButton>
         </div>
       );
@@ -398,13 +396,13 @@ function CVInputBox() {
               ))}
           {projectObj.length === 0 && (
             <div className="emptyState">
-              <span className="emptyStateIcon">🚀</span>
-              <p className="emptyStateText">No projects added yet.</p>
-              <p className="emptyStateHint">Click the button below to showcase your work.</p>
+              <span className="emptyStateIcon">{STRINGS.UI.EMPTY_PROJ.icon}</span>
+              <p className="emptyStateText">{STRINGS.UI.EMPTY_PROJ.title}</p>
+              <p className="emptyStateHint">{STRINGS.UI.EMPTY_PROJ.hint}</p>
             </div>
           )}
           <GradientButton variant="outlined" type="button" onClick={renderProjects} sx={{ borderRadius: "30px" }}>
-            + Add Project
+            {STRINGS.UI.ADD_PROJ}
           </GradientButton>
         </div>
       );
@@ -425,13 +423,13 @@ function CVInputBox() {
             ))}
           {achievementObj.length === 0 && (
             <div className="emptyState">
-              <span className="emptyStateIcon">🏆</span>
-              <p className="emptyStateText">No achievements added yet.</p>
-              <p className="emptyStateHint">Click the button below to add your awards & milestones.</p>
+              <span className="emptyStateIcon">{STRINGS.UI.EMPTY_ACHIEVE.icon}</span>
+              <p className="emptyStateText">{STRINGS.UI.EMPTY_ACHIEVE.title}</p>
+              <p className="emptyStateHint">{STRINGS.UI.EMPTY_ACHIEVE.hint}</p>
             </div>
           )}
           <GradientButton variant="outlined" type="button" onClick={renderAchievement} sx={{ borderRadius: "30px", width: "100%" }}>
-            + Add Achievement
+            {STRINGS.UI.ADD_ACHIEVE}
           </GradientButton>
         </div>
       );
@@ -489,11 +487,11 @@ function CVInputBox() {
             <span className="paginationPageLabel">{currentPage} / 6</span>
             {currentPage !== 6 ? (
               <GradientButton variant="outlined" disabled={getIsNextDisabled()} onClick={nextPage} sx={{ borderRadius: "999px", border: "none" }}>
-                Next →
+                {STRINGS.UI.NEXT}
               </GradientButton>
             ) : (
               <GradientButton variant="contained" type="button" onClick={handleFormSubmit} sx={{ borderRadius: "999px", border: "none" }}>
-                Save & View CV ✓
+                {STRINGS.UI.SAVE_CV}
               </GradientButton>
             )}
           </div>

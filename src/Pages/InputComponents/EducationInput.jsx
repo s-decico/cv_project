@@ -1,12 +1,13 @@
 import React from "react";
 import { WhiteTextField, WhiteDeleteIcon } from "../../MUIStyledComponents";
+import { STRINGS } from "../../Constants/strings";
 
 function EducationInput({ handleEducationChange, index, value, handleEducationDelete, errors }) {
   return (
     <div className="educationSub">
       <div className="educationFields">
         <WhiteTextField
-          label="Qualification"
+          label={STRINGS.LABELS.QUALIFICATION}
           variant="outlined"
           type="text"
           name="qualification"
@@ -16,7 +17,7 @@ function EducationInput({ handleEducationChange, index, value, handleEducationDe
           helperText={errors?.qualification}
         />
         <WhiteTextField
-          label="School / College"
+          label={STRINGS.LABELS.SCHOOL}
           variant="outlined"
           type="text"
           name="school"
@@ -26,7 +27,7 @@ function EducationInput({ handleEducationChange, index, value, handleEducationDe
           helperText={errors?.school}
         />
         <WhiteTextField
-          label="Year / Period"
+          label={STRINGS.LABELS.YEAR_PERIOD}
           variant="outlined"
           type={value?.doj ? "month" : "text"}
           onFocus={(e) => (e.target.type = "month")}

@@ -4,6 +4,7 @@ import { WhiteTextField } from "../../MUIStyledComponents";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import { Add } from "@mui/icons-material";
+import { STRINGS } from "../../Constants/strings";
 
 function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDelete, errors }) {
   const [_details, setDetails] = useState([]);
@@ -49,7 +50,7 @@ function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDele
       {/* Left column: fields */}
       <div className="workExperienceProjTitle">
         <WhiteTextField
-          label="Project Name"
+          label={STRINGS.LABELS.PROJECT_NAME}
           variant="outlined"
           type="text"
           name="projectname"
@@ -59,7 +60,7 @@ function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDele
           helperText={errors?.projectname}
         />
         <WhiteTextField
-          label="Year"
+          label={STRINGS.LABELS.PROJECT_YEAR}
           variant="outlined"
           type={value?.projectyear ? "month" : "text"}
           onFocus={(e) => (e.target.type = "month")}
@@ -75,7 +76,7 @@ function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDele
         />
         <Tooltip title="Enter the URL of the project" placement="top">
           <WhiteTextField
-            label="Link to Project"
+            label={STRINGS.LABELS.PROJECT_LINK}
             variant="outlined"
             type="text"
             name="projectlink"
@@ -91,7 +92,7 @@ function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDele
       {/* Right column: bullet details */}
       <div className="detailsMain">
         <div className="detailsHead">
-          Bullet Points
+          {STRINGS.LABELS.BULLET_POINTS}
           <IconButton
             aria-label="add"
             size="small"
@@ -123,7 +124,7 @@ function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDele
           </div>
         ))}
         {_details.length === 0 && (
-          <p className="detailsEmptyHint">Click + to add bullet points.</p>
+          <p className="detailsEmptyHint">{STRINGS.LABELS.CLICK_TO_ADD}</p>
         )}
       </div>
     </div>

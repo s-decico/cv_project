@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { STRINGS } from "../Constants/strings";
 import Navbar from "../Component/Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -213,7 +214,7 @@ function CVBox() {
                   {/* SKILLS */}
                   {jsonData.Skills && jsonData.Skills.length > 0 && (
                     <div className="ats-section">
-                      <div className="ats-section-title">Skills & Expertise</div>
+                      <div className="ats-section-title">{STRINGS.CV_SECTIONS.SKILLS}</div>
                       <div className="ats-skills-list">
                         {jsonData.Skills.join(" • ")}
                       </div>
@@ -223,7 +224,7 @@ function CVBox() {
                   {/* WORK EXPERIENCE */}
                   {jsonData.WorkExperience && jsonData.WorkExperience.length > 0 && (
                     <div className="ats-section">
-                      <div className="ats-section-title">Professional Experience</div>
+                      <div className="ats-section-title">{STRINGS.CV_SECTIONS.EXPERIENCE}</div>
                       {jsonData.WorkExperience.map((work, index) => (
                         <div className="ats-entry" key={index}>
                           <div className="ats-entry-header">
@@ -252,7 +253,7 @@ function CVBox() {
                   {/* PROJECTS */}
                   {jsonData.Project && jsonData.Project.length > 0 && (
                     <div className="ats-section">
-                      <div className="ats-section-title">Projects</div>
+                      <div className="ats-section-title">{STRINGS.CV_SECTIONS.PROJECTS}</div>
                       {jsonData.Project.map((proj, index) => (
                         <div className="ats-entry" key={index}>
                           <div className="ats-entry-header">
@@ -282,7 +283,7 @@ function CVBox() {
                   {/* EDUCATION */}
                   {jsonData.Education && jsonData.Education.length > 0 && (
                     <div className="ats-section">
-                      <div className="ats-section-title">Education</div>
+                      <div className="ats-section-title">{STRINGS.CV_SECTIONS.EDUCATION}</div>
                       {jsonData.Education.map((edu, index) => (
                         <div className="ats-entry" key={index}>
                           <div className="ats-entry-header">
@@ -302,7 +303,7 @@ function CVBox() {
                   {/* ACHIEVEMENTS */}
                   {jsonData.Achievement && jsonData.Achievement.length > 0 && (
                     <div className="ats-section">
-                      <div className="ats-section-title">Achievements</div>
+                      <div className="ats-section-title">{STRINGS.CV_SECTIONS.ACHIEVEMENTS}</div>
                       {jsonData.Achievement.map((ach, index) => (
                         <div className="ats-entry" key={index} style={{ marginBottom: "0.5rem" }}>
                           <span className="ats-entry-title" style={{ fontSize: "1rem" }}>{ach.title}</span>

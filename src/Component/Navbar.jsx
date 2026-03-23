@@ -13,9 +13,10 @@ import { Login, Person } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { GradientButton, StyledAppBar } from "../MUIStyledComponents";
 import cookie from "js-cookie";
+import { STRINGS } from "../Constants/strings";
 
-const pages = ["Home", "My CV"];
-const settings = ["My CV", "Logout"];
+const pages = [STRINGS.NAVBAR.HOME, STRINGS.NAVBAR.MY_CV];
+const settings = [STRINGS.NAVBAR.MY_CV, STRINGS.NAVBAR.LOGOUT];
 
 function Navbar() {
   const isAuthenticated = cookie.get("isAuthenticated");
@@ -37,8 +38,8 @@ function Navbar() {
 
   const navbarSwitch = (key) => {
     switch (key) {
-      case "Home": navigate("/"); break;
-      case "My CV": navigate("/cv"); break;
+      case STRINGS.NAVBAR.HOME: navigate("/"); break;
+      case STRINGS.NAVBAR.MY_CV: navigate("/cv"); break;
       default: navigate("/"); break;
     }
   };
@@ -90,7 +91,7 @@ function Navbar() {
                 display: { xs: "none", sm: "block" },
               }}
             >
-              Resumate
+              {STRINGS.APP_NAME}
             </Typography>
           </Box>
 
@@ -124,7 +125,7 @@ function Navbar() {
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             {isAuthenticated ? (
               <>
-                <Tooltip title="Account menu">
+                <Tooltip title={STRINGS.NAVBAR.ACCOUNT_MENU}>
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0.5 }}>
                     <Avatar
                       sx={{
@@ -162,11 +163,11 @@ function Navbar() {
                       key={setting}
                       onClick={() => {
                         handleCloseUserMenu();
-                        if (setting === "Logout") handleLogout();
-                        if (setting === "My CV") navigate("/cv");
+                        if (setting === STRINGS.NAVBAR.LOGOUT) handleLogout();
+                        if (setting === STRINGS.NAVBAR.MY_CV) navigate("/cv");
                       }}
                       sx={{
-                        color: setting === "Logout" ? "#f87171" : "#d0d0f0",
+                        color: setting === STRINGS.NAVBAR.LOGOUT ? "#f87171" : "#d0d0f0",
                         fontFamily: "'Inter', sans-serif",
                         fontSize: "0.875rem",
                         py: 1,
@@ -186,7 +187,7 @@ function Navbar() {
                 onClick={() => navigate("/login")}
                 sx={{ fontSize: "0.85rem", py: 0.7, px: 2 }}
               >
-                Sign In
+                {STRINGS.NAVBAR.SIGN_IN}
               </GradientButton>
             )}
 

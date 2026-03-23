@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Tooltip, Checkbox, FormControlLabel } from "@mui/material";
 import { WhiteTextField } from "../../MUIStyledComponents";
+import { STRINGS } from "../../Constants/strings";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import { Add } from "@mui/icons-material";
@@ -56,7 +57,7 @@ function WorkExperienceInput({
       {/* Left column: fields */}
       <div className="workExperienceProjTitle">
         <WhiteTextField
-          label="Designation"
+          label={STRINGS.LABELS.DESIGNATION}
           variant="outlined"
           type="text"
           name="designation"
@@ -66,7 +67,7 @@ function WorkExperienceInput({
           helperText={errors?.designation}
         />
         <WhiteTextField
-          label="Company Name"
+          label={STRINGS.LABELS.COMPANY_NAME}
           variant="outlined"
           type="text"
           name="companyname"
@@ -78,7 +79,7 @@ function WorkExperienceInput({
         />
         <div className="workExpDate">
           <WhiteTextField
-            label="Start Date"
+            label={STRINGS.LABELS.START_DATE}
             variant="outlined"
             type={value?.startdate ? "date" : "text"}
             onFocus={(e) => (e.target.type = "date")}
@@ -93,10 +94,10 @@ function WorkExperienceInput({
             helperText={errors?.startdate}
           />
           <div style={{ display: "flex", flexDirection: "column", marginTop: "0.5rem", flex: 1, minWidth: 0 }}>
-            <Tooltip title="Leave empty if still working" placement="top">
+              <Tooltip title={STRINGS.LABELS.LEAVE_EMPTY} placement="top">
               <span>
                 <WhiteTextField
-                  label="End Date"
+                  label={STRINGS.LABELS.END_DATE}
                   variant="outlined"
                   type={value?.enddate ? "date" : "text"}
                   onFocus={(e) => (e.target.type = "date")}
@@ -132,7 +133,7 @@ function WorkExperienceInput({
               }
               label={
                 <span style={{ color: "#f0f0ff", fontSize: "0.85rem", opacity: 0.85, whiteSpace: "nowrap" }}>
-                  I currently work here
+                  {STRINGS.LABELS.CURRENT_JOB}
                 </span>
               }
               sx={{ marginTop: "0.25rem", userSelect: "none", marginLeft: 0 }}
@@ -144,7 +145,7 @@ function WorkExperienceInput({
       {/* Right column: bullet details */}
       <div className="detailsMain">
         <div className="detailsHead">
-          Bullet Points
+          {STRINGS.LABELS.BULLET_POINTS}
           <IconButton
             aria-label="add"
             size="small"
@@ -176,7 +177,7 @@ function WorkExperienceInput({
           </div>
         ))}
         {_details.length === 0 && (
-          <p className="detailsEmptyHint">Click + to add bullet points.</p>
+          <p className="detailsEmptyHint">{STRINGS.LABELS.CLICK_TO_ADD}</p>
         )}
       </div>
     </div>
