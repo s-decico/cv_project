@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import { Add } from "@mui/icons-material";
 
-function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDelete }) {
+function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDelete, errors }) {
   const [_details, setDetails] = useState([]);
 
   useEffect(() => {
@@ -53,17 +53,25 @@ function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDele
           variant="outlined"
           type="text"
           name="projectname"
-          value={value ? value.projectname : ""}
+          value={value?.projectname || ""}
           onChange={(event) => handleProjectChange(event)}
+          error={!!errors?.projectname}
+          helperText={errors?.projectname}
         />
         <WhiteTextField
           label="Year"
           variant="outlined"
-          type="text"
+          type={value?.projectyear ? "month" : "text"}
+          onFocus={(e) => (e.target.type = "month")}
+          onBlur={(e) => {
+            if (!e.target.value) e.target.type = "text";
+          }}
           name="projectyear"
-          value={value ? value.projectyear : ""}
+          value={value?.projectyear || ""}
           onChange={(event) => handleProjectChange(event)}
           sx={{ marginTop: "0.5rem" }}
+          error={!!errors?.projectyear}
+          helperText={errors?.projectyear}
         />
         <Tooltip title="Enter the URL of the project" placement="top">
           <WhiteTextField
@@ -71,9 +79,11 @@ function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDele
             variant="outlined"
             type="text"
             name="projectlink"
-            value={value ? value.projectlink : ""}
+            value={value?.projectlink || ""}
             onChange={(event) => handleProjectChange(event)}
             sx={{ marginTop: "0.5rem" }}
+            error={!!errors?.projectlink}
+            helperText={errors?.projectlink}
           />
         </Tooltip>
       </div>
