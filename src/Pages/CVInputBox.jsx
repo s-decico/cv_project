@@ -14,10 +14,8 @@ import WorkExperienceInput from "./InputComponents/WorkExperienceInput";
 import axios from "axios";
 import cookie from "js-cookie";
 import Navbar from "../Component/Navbar";
-import {
-  GradientButton,
-  WhiteDeleteIcon,
-} from "../MUIStyledComponents";
+import { WhiteDeleteIcon, GradientButton } from "../MUIStyledComponents";
+import { STRINGS } from "../Constants/strings";
 import UserDetailsInput from "./InputComponents/UserDetailsinput";
 
 import LinearWithValueLabel from "../MUIComponents/LinearProgressBar";
@@ -66,7 +64,7 @@ function CVInputBox() {
     }
   }, [token]);
 
-  const [userDetails, setUserDetails] = useState();
+  const [userDetails, setUserDetails] = useState({});
   const [fullDetails, setfullDetails] = useState();
   let tempobj = {};
 
@@ -134,8 +132,6 @@ function CVInputBox() {
     setEducationObj(temp);
   };
 
-  useEffect(() => { console.log("WorkEx:", workExperienceObj); }, [workExperienceObj]);
-
   const sendDataToServer = (data) => {
     const url = process.env.REACT_APP_API_URL + "/cvinput";
     axios
@@ -148,19 +144,129 @@ function CVInputBox() {
   };
 
   const handleFormSubmit = () => {
+    // 1. Scrub everything that is entirely empty
+    const cleanWork = workExperienceObj.filter(obj => 
+      obj.designation?.trim() || obj.companyname?.trim() || obj.startdate?.trim() || obj.enddate?.trim() || obj.details?.some(d => typeof d === 'string' && d.trim())
+    );
+    cleanWork.forEach(obj => { obj.details = obj.details?.filter(d => typeof d === 'string' && d.trim()) || [] });
+
+    const cleanEdu = educationObj.filter(obj => 
+      obj.qualification?.trim() || obj.school?.trim() || obj.doj?.trim()
+    );
+
+    const cleanProj = projectObj.filter(obj => 
+      obj.projectname?.trim() || obj.projectyear?.trim() || obj.projectlink?.trim() || obj.details?.some(d => typeof d === 'string' && d.trim())
+    );
+    cleanProj.forEach(obj => { obj.details = obj.details?.filter(d => typeof d === 'string' && d.trim()) || [] });
+
+    const cleanAchieve = achievementObj.filter(obj => 
+      obj.title?.trim() || obj.subtitle?.trim()
+    );
+
+    const cleanSkills = skills.filter(s => typeof s === 'string' && s.trim());
+    const cleanLang = language.filter(s => typeof s === 'string' && s.trim());
+    const cleanInt = interests.filter(s => typeof s === 'string' && s.trim());
+
+    // 2. Refresh local state immediately to prove it to the user
+    setworkExperienceObj(cleanWork);
+    setEducationObj(cleanEdu);
+    setProjectObj(cleanProj);
+    setAchievementObj(cleanAchieve);
+    setSkills(cleanSkills);
+    setLanguage(cleanLang);
+    setInterests(cleanInt);
+
     tempobj = {
       BasicDetails: userDetails,
-      WorkExperience: workExperienceObj,
-      Education: educationObj,
-      Project: projectObj,
-      Achievement: achievementObj,
-      Language: language,
-      Interest: interests,
-      Skills: skills,
+      WorkExperience: cleanWork,
+      Education: cleanEdu,
+      Project: cleanProj,
+      Achievement: cleanAchieve,
+      Language: cleanLang,
+      Interest: cleanInt,
+      Skills: cleanSkills,
     };
+    
     setfullDetails(tempobj);
     sendDataToServer(tempobj);
   };
+
+  // --- DERIVED VALIDATION STATE ---
+  const errors = { personal: {}, work: [], education: [], project: [] };
+  
+  let isPersonalValid = true;
+  if (!userDetails?.fullname || userDetails.fullname.trim().length < 2) {
+    errors.personal.fullname = "Required (min 2 characters).";
+    isPersonalValid = false;
+  } else if (!/^[a-zA-Z\s]+$/.test(userDetails.fullname)) {
+    errors.personal.fullname = "Only characters and spaces allowed.";
+    isPersonalValid = false;
+  }
+  if (!userDetails?.email) {
+    errors.personal.email = "Required.";
+    isPersonalValid = false;
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userDetails.email)) {
+    errors.personal.email = "Invalid email format.";
+    isPersonalValid = false;
+  }
+  if (userDetails?.phno && !/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/.test(userDetails.phno)) {
+    errors.personal.phno = "Invalid phone format.";
+    isPersonalValid = false;
+  }
+  const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+  if (userDetails?.linkedin && !urlRegex.test(userDetails.linkedin)) {
+    errors.personal.linkedin = "Invalid URL.";
+    isPersonalValid = false;
+  }
+  if (userDetails?.github && !urlRegex.test(userDetails.github)) {
+    errors.personal.github = "Invalid URL.";
+    isPersonalValid = false;
+  }
+
+  let isWorkValid = true;
+  workExperienceObj.forEach((work, idx) => {
+    let err = {};
+    if (Object.keys(work).length > 0 && (work.designation || work.companyname || work.startdate || work.enddate || work.details?.length > 0)) {
+      if (!work.designation?.trim()) { err.designation = "Required"; isWorkValid = false; }
+      if (!work.companyname?.trim()) { err.companyname = "Required"; isWorkValid = false; }
+      if (!work.startdate?.trim()) { err.startdate = "Required"; isWorkValid = false; }
+    }
+    errors.work[idx] = err;
+  });
+
+  let isEducationValid = true;
+  educationObj.forEach((edu, idx) => {
+    let err = {};
+    if (Object.keys(edu).length > 0 && (edu.qualification || edu.school || edu.doj)) {
+      if (!edu.qualification?.trim()) { err.qualification = "Required"; isEducationValid = false; }
+      if (!edu.school?.trim()) { err.school = "Required"; isEducationValid = false; }
+      if (!edu.doj?.trim()) { err.doj = "Required"; isEducationValid = false; }
+    }
+    errors.education[idx] = err;
+  });
+
+  let isProjectValid = true;
+  projectObj.forEach((proj, idx) => {
+    let err = {};
+    if (Object.keys(proj).length > 0 && (proj.projectname || proj.projectyear || proj.projectlink || proj.details?.length > 0)) {
+      if (!proj.projectname?.trim()) { err.projectname = "Required"; isProjectValid = false; }
+      if (!proj.projectyear?.trim()) { err.projectyear = "Required"; isProjectValid = false; }
+      if (proj.projectlink && !urlRegex.test(proj.projectlink)) {
+        err.projectlink = "Invalid URL text.";
+        isProjectValid = false;
+      }
+    }
+    errors.project[idx] = err;
+  });
+
+  const getIsNextDisabled = () => {
+    if (currentPage === 1) return !isPersonalValid;
+    if (currentPage === 2) return !isWorkValid;
+    if (currentPage === 3) return !isEducationValid;
+    if (currentPage === 5) return !isProjectValid;
+    return false;
+  };
+  // --------------------------------
 
   const [currentPage, setCurrentPage] = useState(1);
   const nextPage = () => setCurrentPage((p) => p + 1);
@@ -188,7 +294,7 @@ function CVInputBox() {
   switch (currentPage) {
     case 1:
       currentPageComponent = (
-        <UserDetailsInput handleUserDetails={handleUserDetails} userDetails={userDetails} />
+        <UserDetailsInput handleUserDetails={handleUserDetails} userDetails={userDetails} errors={errors.personal} />
       );
       break;
 
@@ -206,6 +312,7 @@ function CVInputBox() {
                     setworkExperienceObj={setworkExperienceObj}
                     workExperienceObj={workExperienceObj}
                     handleWorkExpDelete={handleWorkExpDelete}
+                    errors={errors.work[index]}
                   />
                   <div className="entryDeleteBtn" onClick={() => handleWorkExpDelete(index)}>
                     <WhiteDeleteIcon />
@@ -214,13 +321,13 @@ function CVInputBox() {
               ))}
           {workExperienceObj.length === 0 && (
             <div className="emptyState">
-              <span className="emptyStateIcon">💼</span>
-              <p className="emptyStateText">No work experience added yet.</p>
-              <p className="emptyStateHint">Click the button below to add your first role.</p>
+              <span className="emptyStateIcon">{STRINGS.UI.EMPTY_WORK.icon}</span>
+              <p className="emptyStateText">{STRINGS.UI.EMPTY_WORK.title}</p>
+              <p className="emptyStateHint">{STRINGS.UI.EMPTY_WORK.hint}</p>
             </div>
           )}
-          <GradientButton variant="outlined" type="button" onClick={renderWorkExperience} sx={{ borderRadius: "30px" }}>
-            + Add Work Experience
+          <GradientButton variant="outlined" type="button" onClick={renderWorkExperience} sx={{ borderRadius: "30px", width: "100%" }}>
+            {STRINGS.UI.ADD_WORK}
           </GradientButton>
         </div>
       );
@@ -239,17 +346,18 @@ function CVInputBox() {
                   index={index}
                   value={educationObj[index]}
                   handleEducationDelete={handleEducationDelete}
+                  errors={errors.education[index]}
                 />
               ))}
           {educationObj.length === 0 && (
             <div className="emptyState">
-              <span className="emptyStateIcon">🎓</span>
-              <p className="emptyStateText">No education entries added yet.</p>
-              <p className="emptyStateHint">Click the button below to add your qualifications.</p>
+              <span className="emptyStateIcon">{STRINGS.UI.EMPTY_EDU.icon}</span>
+              <p className="emptyStateText">{STRINGS.UI.EMPTY_EDU.title}</p>
+              <p className="emptyStateHint">{STRINGS.UI.EMPTY_EDU.hint}</p>
             </div>
           )}
           <GradientButton variant="outlined" type="button" onClick={renderEducation} sx={{ borderRadius: "30px", width: "100%" }}>
-            + Add Education
+            {STRINGS.UI.ADD_EDU}
           </GradientButton>
         </div>
       );
@@ -279,6 +387,7 @@ function CVInputBox() {
                     projectObj={projectObj}
                     value={projectObj[index]}
                     handleProjDelete={handleProjDelete}
+                    errors={errors.project[index]}
                   />
                   <div className="entryDeleteBtn" onClick={() => handleProjDelete(index)}>
                     <WhiteDeleteIcon />
@@ -287,13 +396,13 @@ function CVInputBox() {
               ))}
           {projectObj.length === 0 && (
             <div className="emptyState">
-              <span className="emptyStateIcon">🚀</span>
-              <p className="emptyStateText">No projects added yet.</p>
-              <p className="emptyStateHint">Click the button below to showcase your work.</p>
+              <span className="emptyStateIcon">{STRINGS.UI.EMPTY_PROJ.icon}</span>
+              <p className="emptyStateText">{STRINGS.UI.EMPTY_PROJ.title}</p>
+              <p className="emptyStateHint">{STRINGS.UI.EMPTY_PROJ.hint}</p>
             </div>
           )}
           <GradientButton variant="outlined" type="button" onClick={renderProjects} sx={{ borderRadius: "30px" }}>
-            + Add Project
+            {STRINGS.UI.ADD_PROJ}
           </GradientButton>
         </div>
       );
@@ -314,13 +423,13 @@ function CVInputBox() {
             ))}
           {achievementObj.length === 0 && (
             <div className="emptyState">
-              <span className="emptyStateIcon">🏆</span>
-              <p className="emptyStateText">No achievements added yet.</p>
-              <p className="emptyStateHint">Click the button below to add your awards & milestones.</p>
+              <span className="emptyStateIcon">{STRINGS.UI.EMPTY_ACHIEVE.icon}</span>
+              <p className="emptyStateText">{STRINGS.UI.EMPTY_ACHIEVE.title}</p>
+              <p className="emptyStateHint">{STRINGS.UI.EMPTY_ACHIEVE.hint}</p>
             </div>
           )}
           <GradientButton variant="outlined" type="button" onClick={renderAchievement} sx={{ borderRadius: "30px", width: "100%" }}>
-            + Add Achievement
+            {STRINGS.UI.ADD_ACHIEVE}
           </GradientButton>
         </div>
       );
@@ -377,12 +486,12 @@ function CVInputBox() {
             <div className="paginationSpacer" />
             <span className="paginationPageLabel">{currentPage} / 6</span>
             {currentPage !== 6 ? (
-              <GradientButton variant="outlined" onClick={nextPage} sx={{ borderRadius: "999px", border: "none" }}>
-                Next →
+              <GradientButton variant="outlined" disabled={getIsNextDisabled()} onClick={nextPage} sx={{ borderRadius: "999px", border: "none" }}>
+                {STRINGS.UI.NEXT}
               </GradientButton>
             ) : (
               <GradientButton variant="contained" type="button" onClick={handleFormSubmit} sx={{ borderRadius: "999px", border: "none" }}>
-                Save & View CV ✓
+                {STRINGS.UI.SAVE_CV}
               </GradientButton>
             )}
           </div>

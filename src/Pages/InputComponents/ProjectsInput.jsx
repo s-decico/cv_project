@@ -4,8 +4,9 @@ import { WhiteTextField } from "../../MUIStyledComponents";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import { Add } from "@mui/icons-material";
+import { STRINGS } from "../../Constants/strings";
 
-function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDelete }) {
+function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDelete, errors }) {
   const [_details, setDetails] = useState([]);
 
   useEffect(() => {
@@ -49,31 +50,41 @@ function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDele
       {/* Left column: fields */}
       <div className="workExperienceProjTitle">
         <WhiteTextField
-          label="Project Name"
+          label={STRINGS.LABELS.PROJECT_NAME}
           variant="outlined"
           type="text"
           name="projectname"
-          value={value ? value.projectname : ""}
+          value={value?.projectname || ""}
           onChange={(event) => handleProjectChange(event)}
+          error={!!errors?.projectname}
+          helperText={errors?.projectname}
         />
         <WhiteTextField
-          label="Year"
+          label={STRINGS.LABELS.PROJECT_YEAR}
           variant="outlined"
-          type="text"
+          type={value?.projectyear ? "month" : "text"}
+          onFocus={(e) => (e.target.type = "month")}
+          onBlur={(e) => {
+            if (!e.target.value) e.target.type = "text";
+          }}
           name="projectyear"
-          value={value ? value.projectyear : ""}
+          value={value?.projectyear || ""}
           onChange={(event) => handleProjectChange(event)}
           sx={{ marginTop: "0.5rem" }}
+          error={!!errors?.projectyear}
+          helperText={errors?.projectyear}
         />
         <Tooltip title="Enter the URL of the project" placement="top">
           <WhiteTextField
-            label="Link to Project"
+            label={STRINGS.LABELS.PROJECT_LINK}
             variant="outlined"
             type="text"
             name="projectlink"
-            value={value ? value.projectlink : ""}
+            value={value?.projectlink || ""}
             onChange={(event) => handleProjectChange(event)}
             sx={{ marginTop: "0.5rem" }}
+            error={!!errors?.projectlink}
+            helperText={errors?.projectlink}
           />
         </Tooltip>
       </div>
@@ -81,7 +92,7 @@ function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDele
       {/* Right column: bullet details */}
       <div className="detailsMain">
         <div className="detailsHead">
-          Bullet Points
+          {STRINGS.LABELS.BULLET_POINTS}
           <IconButton
             aria-label="add"
             size="small"
@@ -113,7 +124,7 @@ function ProjectsInput({ index, setProjectObj, projectObj, value, handleProjDele
           </div>
         ))}
         {_details.length === 0 && (
-          <p className="detailsEmptyHint">Click + to add bullet points.</p>
+          <p className="detailsEmptyHint">{STRINGS.LABELS.CLICK_TO_ADD}</p>
         )}
       </div>
     </div>

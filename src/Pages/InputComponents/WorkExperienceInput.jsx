@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Tooltip } from "@mui/material";
+import { Tooltip, Checkbox, FormControlLabel } from "@mui/material";
 import { WhiteTextField } from "../../MUIStyledComponents";
+import { STRINGS } from "../../Constants/strings";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import { Add } from "@mui/icons-material";
@@ -11,6 +12,7 @@ function WorkExperienceInput({
   workExperienceObj,
   value,
   handleWorkExpDelete,
+  errors,
 }) {
   const [_details, setDetails] = useState([]);
 
@@ -55,50 +57,95 @@ function WorkExperienceInput({
       {/* Left column: fields */}
       <div className="workExperienceProjTitle">
         <WhiteTextField
-          label="Designation"
+          label={STRINGS.LABELS.DESIGNATION}
           variant="outlined"
           type="text"
           name="designation"
-          value={value ? value.designation : ""}
+          value={value?.designation || ""}
           onChange={(event) => handleWorkExpChange(event, index)}
+          error={!!errors?.designation}
+          helperText={errors?.designation}
         />
         <WhiteTextField
-          label="Company Name"
+          label={STRINGS.LABELS.COMPANY_NAME}
           variant="outlined"
           type="text"
           name="companyname"
-          value={value ? value.companyname : ""}
+          value={value?.companyname || ""}
           onChange={(event) => handleWorkExpChange(event, index)}
           sx={{ marginTop: "0.5rem" }}
+          error={!!errors?.companyname}
+          helperText={errors?.companyname}
         />
         <div className="workExpDate">
           <WhiteTextField
-            label="Date of Joining"
+            label={STRINGS.LABELS.START_DATE}
             variant="outlined"
-            type="text"
+            type={value?.startdate ? "date" : "text"}
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => {
+              if (!e.target.value) e.target.type = "text";
+            }}
             name="startdate"
-            value={value ? value.startdate : ""}
+            value={value?.startdate || ""}
             onChange={(event) => handleWorkExpChange(event)}
-            sx={{ marginTop: "0.5rem" }}
+            sx={{ marginTop: "0.5rem", flex: 1 }}
+            error={!!errors?.startdate}
+            helperText={errors?.startdate}
           />
-          <Tooltip title="Leave empty if still working" placement="top">
-            <WhiteTextField
-              label="End Date"
-              variant="outlined"
-              type="text"
-              name="enddate"
-              value={value ? value.enddate : ""}
-              onChange={(event) => handleWorkExpChange(event)}
-              sx={{ marginTop: "0.5rem" }}
+          <div style={{ display: "flex", flexDirection: "column", marginTop: "0.5rem", flex: 1, minWidth: 0 }}>
+              <Tooltip title={STRINGS.LABELS.LEAVE_EMPTY} placement="top">
+              <span>
+                <WhiteTextField
+                  label={STRINGS.LABELS.END_DATE}
+                  variant="outlined"
+                  type={value?.enddate ? "date" : "text"}
+                  onFocus={(e) => (e.target.type = "date")}
+                  onBlur={(e) => {
+                    if (!e.target.value) e.target.type = "text";
+                  }}
+                  name="enddate"
+                  value={value?.enddate || ""}
+                  onChange={(event) => handleWorkExpChange(event)}
+                  disabled={!!value?.startdate && !value?.enddate}
+                  sx={{ 
+                    width: "100%", 
+                    opacity: (value?.startdate && !value?.enddate) ? 0.4 : 1,
+                    pointerEvents: (value?.startdate && !value?.enddate) ? "none" : "auto" 
+                  }}
+                />
+              </span>
+            </Tooltip>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={!!value?.startdate && !value?.enddate}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      handleWorkExpChange({ target: { name: "enddate", value: "" } });
+                    }
+                  }}
+                  sx={{
+                    color: "rgba(124, 106, 247, 0.6)",
+                    "&.Mui-checked": { color: "#a78bfa" },
+                  }}
+                />
+              }
+              label={
+                <span style={{ color: "#f0f0ff", fontSize: "0.85rem", opacity: 0.85, whiteSpace: "nowrap" }}>
+                  {STRINGS.LABELS.CURRENT_JOB}
+                </span>
+              }
+              sx={{ marginTop: "0.25rem", userSelect: "none", marginLeft: 0 }}
             />
-          </Tooltip>
+          </div>
         </div>
       </div>
 
       {/* Right column: bullet details */}
       <div className="detailsMain">
         <div className="detailsHead">
-          Bullet Points
+          {STRINGS.LABELS.BULLET_POINTS}
           <IconButton
             aria-label="add"
             size="small"
@@ -130,7 +177,7 @@ function WorkExperienceInput({
           </div>
         ))}
         {_details.length === 0 && (
-          <p className="detailsEmptyHint">Click + to add bullet points.</p>
+          <p className="detailsEmptyHint">{STRINGS.LABELS.CLICK_TO_ADD}</p>
         )}
       </div>
     </div>
