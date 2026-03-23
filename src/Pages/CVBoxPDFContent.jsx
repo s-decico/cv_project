@@ -1,13 +1,5 @@
 import React from "react";
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
-import {
-  PhoneAndroid,
-  Home,
-  Email,
-  LinkedIn,
-  GitHub,
-} from "@mui/icons-material";
-import { Divider } from "@mui/material";
+import { StyleSheet } from "@react-pdf/renderer";
 import ReactDOMServer from "react-dom/server";
 import CVBox from "./CVBox";
 

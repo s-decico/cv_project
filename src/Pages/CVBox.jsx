@@ -6,24 +6,14 @@ import cookie from "js-cookie";
 import "./cv.css";
 import "./home.css";
 import html2pdf from "html2pdf.js";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import FileDownload from "js-file-download";
-import generatePdfContent from "./CVBoxPDFContent"; // Import your PDF content component
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import {
-  Add,
   PhoneAndroid,
   Home,
   Email,
   LinkedIn,
   GitHub,
-  Circle,
-  CleaningServices,
 } from "@mui/icons-material";
 import { CircularProgress, Divider } from "@mui/material";
-import ReactDOMServer from "react-dom/server";
-import { alignProperty } from "@mui/material/styles/cssUtils";
 
 function CVBox() {
   const [jsonData, setJsonData] = useState({});

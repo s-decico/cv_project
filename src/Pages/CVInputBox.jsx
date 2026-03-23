@@ -29,7 +29,7 @@ function CVInputBox() {
   const isAuthenticated = cookie.get("isAuthenticated");
 
   useEffect(() => {
-    if (token == null || token == undefined) {
+    if (token === null || token === undefined) {
       setTimeout(() => { navigate("/login"); }, 0);
     } else if (isAuthenticated && token) {
       setTimeout(() => {
