@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import cookie from "js-cookie";
 import "./cv.css";
+import "./home.css";
 import html2pdf from "html2pdf.js";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -106,47 +107,7 @@ function CVBox() {
       }
       
       
-      .cvpdfButtons{
-        width: 20rem;
-        padding: 2rem 2.5rem;
-        color: #fff;
-        font-weight: bold;
-        border-radius: 10px;
-        letter-spacing: 4px;
-        transition: 0.2s;
-        cursor: pointer;
-        border: 3px solid #fff;
-        font-size: 1rem;
-        box-shadow:none;
-        transition: background-color 1s;
-        background: linear-gradient(90deg, #ce4949, transparent) #d47878;
-      }
       
-      .cvpdfButtons:hover{
-          color: #fff;
-          background-color: #D5CEA3;
-          /* box-shadow: 0 0 7px #ffffff,
-                      0 0 7px #ffffff,
-                      0 0 7px #ffffff,
-                      0 0 7px #ffffff; */
-           
-      }
-      
-      /* .cvpdfButtons:focus{
-          color: #fff;
-          background:none;
-          background-color: #5c2121;
-          /* box-shadow: 0 0 7px #ffffff,
-                      0 0 7px #ffffff,
-                      0 0 7px #ffffff,
-                      0 0 7px #ffffff; */
-           
-      
-      
-      /* .cvpdfButtons:not(:focus){
-          color: #fff;
-          background: linear-gradient(90deg, #ce4949, transparent) #d47878;
-      } */
       
       .nameBox{
           display: flex;
@@ -161,9 +122,8 @@ function CVBox() {
           display: flex;
           flex-direction: column;
           padding: 1rem 4rem 0rem 4rem;
-font-size:1rem;
-          /* background-color: #7c50b1; */
-          /* background-color: #7c50b1; */
+          font-size:0.8rem;
+          height: max-content;
       }
       
       .basicDetailsElement{
@@ -187,16 +147,13 @@ font-size:1rem;
       .workExperienceBox{
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
-          /* background-color: aquamarine; */
-          padding: 0.5rem 4rem 0.5rem 4rem;
+          padding: 0rem 0.5rem 0rem 0.5rem;
+          height: max-content;
           page-break-inside: avoid;
-      
       }
       .workExpElement{
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
           font-size: 0.9rem;
       }
       .workExpHeaderBox{
@@ -217,6 +174,8 @@ font-size:1rem;
       
       .workexpDetailsElement{
           list-style-type: disc;
+          display:flex;
+          justify-content:flex-start;
       }
       
       .educationBox{
@@ -224,8 +183,8 @@ font-size:1rem;
           display: flex;
           flex-direction: column;
           gap: 0.5rem;
-          /* background-color: brown; */
-          padding: 0.5rem 4rem 0.5rem 4rem;
+          height: max-content;
+          padding: 0.5rem 0.5rem 0.5rem 0.5rem;
       }
       .qualificationBox{
           font-size: 1rem;
@@ -244,23 +203,24 @@ font-size:1rem;
       }
       
       .skillsBox{
-          padding: 0.5rem 4rem 0.5rem 4rem;
-          /* background-color: #4977ce; */
+          padding: 0rem 2rem 0rem 2rem;
+          height: max-content;
       }
       .skillElements{
           display: flex;
           flex-direction: row;
+          flex-wrap:wrap
           align-items: center;
           gap: 0.5rem;
-          height: 2rem;
+          height: max-content;
           
       }
       
       .projectBox{
           display: flex;
           flex-direction: column;
-          /* background-color: #4682A9; */
-          padding: 0.5rem 4rem 0.5rem 4rem;
+          height: max-content;
+          padding: 0.5rem 0.5rem 0.5rem 0.5rem;
           gap: 0.5rem;
           page-break-inside: avoid;
       }
@@ -290,9 +250,9 @@ font-size:1rem;
           page-break-inside: avoid;
           display: flex;
           flex-direction: column;
-          /* background-color: burlywood; */
+          height: max-content;
           gap: 0.5rem;
-          padding: 0.5rem 4rem 0.5rem 4rem;
+          padding: 0.5rem 0.5rem 0.5rem 0.5rem;
       
       }
       .achievementTitleBox{
@@ -307,13 +267,10 @@ font-size:1rem;
           page-break-inside: avoid;
           display: flex;
           flex-direction: row;
-          /* justify-content: space-around;
-          align-items: center;
-          padding: 1rem 4rem 3rem 4rem;
-          gap: 0.5rem; */
+          height: max-content;
           width: 100%;
           gap: 5rem;
-          padding: 1rem 4rem 3rem 4rem;
+          padding: 1rem 0.5rem 3rem 0.5rem;
       }
       .interestBox{
           flex:1;
@@ -328,7 +285,7 @@ font-size:1rem;
       flex-direction: row;
       gap: 0.5rem;
       align-items: center;
-      height: 2rem;
+      height: max-content;
       }
       .interestElementBox{
           flex: 1;
@@ -336,7 +293,7 @@ font-size:1rem;
           flex-direction: row;
           gap: 0.5rem;
           align-items: center;
-          height: 2rem;
+          height: max-content;
       }
       </style>
       </head>
@@ -355,7 +312,7 @@ font-size:1rem;
     if (pdfContent) {
       const contentAsHtml = ConvertToHTML();
       const pdfOptions = {
-        margin: [10, 0, 20, 0],
+        margin: [0, 0, 0, 0],
         filename: "cv.pdf",
         image: { type: "jpeg", quality: 1 },
         html2canvas: { scale: 3 },
@@ -376,27 +333,25 @@ font-size:1rem;
   };
 
   return (
-    <>
+    <div className="cv_preview_page">
       <Navbar />
       {loadstatus === true ? (
         <>
           {Object.keys(jsonData).length === 0 && loadstatus === true ? (
             <>
               <div className="home_body">
-                <p>
-                  Looks like you don't have a CV
-                  <br />
-                  <span>Create one Now!</span>
-                </p>
-
-                <button
-                  type="button"
-                  className="cvpdfButtons"
-                  onClick={() => navigate("/cvinput")}
-                  sx={{ height: "100%" }}
-                >
-                  CREATE A CV
-                </button>
+                <div className="hero_badge">No CV Found</div>
+                <h1>You haven't created a <span className="gradient_text">CV yet</span></h1>
+                <p className="hero_subtitle">Get started by filling in your details — it only takes a few minutes.</p>
+                <div className="hero_cta_group">
+                  <button
+                    type="button"
+                    className="btn_primary"
+                    onClick={() => navigate("/cvinput")}
+                  >
+                    Create My CV →
+                  </button>
+                </div>
               </div>
             </>
           ) : (
@@ -407,14 +362,14 @@ font-size:1rem;
                   className="cvpdfButtons"
                   onClick={generatePdf}
                 >
-                  Download
+                  ⬇ Download PDF
                 </button>
                 <button
                   type="button"
                   className="cvpdfButtons"
                   onClick={() => navigate("/cvinput")}
                 >
-                  Edit CV
+                  ✏ Edit CV
                 </button>
               </div>
               <div className="CVBox" ref={pdfRef}>
@@ -435,6 +390,10 @@ font-size:1rem;
                         Object.keys(jsonData.BasicDetails)
                           .filter((key) => key !== "fullname" && key !== "_id")
                           .map((key) => {
+                            let url = jsonData.BasicDetails[key];
+                            url = url.startsWith("https://")
+                              ? url
+                              : "https://" + url;
                             switch (key) {
                               case "phno":
                                 return (
@@ -456,10 +415,7 @@ font-size:1rem;
                                     className="basicDetailsElement"
                                   >
                                     <Email />
-                                    <a href={email}>
-                                      {/* {jsonData.BasicDetails[key]} */}
-                                      Email
-                                    </a>
+                                    <a href={email}>Email</a>
                                   </div>
                                 );
                                 break;
@@ -474,41 +430,6 @@ font-size:1rem;
                                   </div>
                                 );
                                 break;
-                              default:
-                                if (
-                                  key == "github" &&
-                                  jsonData.BasicDetails[key] == ""
-                                ) {
-                                  let url = jsonData.BasicDetails[key];
-                                  url = url.startsWith("https://")
-                                    ? url
-                                    : "https://" + url;
-                                  return (
-                                    <div
-                                      key={key}
-                                      className="basicDetailsElement"
-                                    >
-                                      <LinkedIn />
-                                      {<a href={url}>LinkedIn</a>}
-                                    </div>
-                                  );
-                                }
-
-                                break;
-                            }
-                          })}
-                    </div>
-                    <div className="basicDetailsElementR2">
-                      {jsonData.BasicDetails &&
-                        jsonData.BasicDetails["github"] != "" &&
-                        Object.keys(jsonData.BasicDetails)
-                          .filter((key) => key !== "fullname" && key !== "_id")
-                          .map((key) => {
-                            let url = jsonData.BasicDetails[key];
-                            url = url.startsWith("https://")
-                              ? url
-                              : "https://" + url;
-                            switch (key) {
                               case "linkedin":
                                 return (
                                   <div
@@ -536,6 +457,42 @@ font-size:1rem;
                             }
                           })}
                     </div>
+                    <div className="basicDetailsElementR2">
+                      {jsonData.BasicDetails &&
+                        jsonData.BasicDetails["github"] != "" &&
+                        Object.keys(jsonData.BasicDetails)
+                          .filter((key) => key !== "fullname" && key !== "_id")
+                          .map((key) => {
+                            let url = jsonData.BasicDetails[key];
+                            url = url.startsWith("https://")
+                              ? url
+                              : "https://" + url;
+                            switch (key) {
+                            }
+                          })}
+                    </div>
+                  </div>
+                </div>
+                <div className="skillsBox">
+                  <Divider textAlign="center" sx={{ fontSize: "0.9rem" }}>
+                    Skills
+                  </Divider>
+                  <div className="skillElements">
+                    {jsonData.Skills &&
+                      jsonData.Skills.map((x, index) => {
+                        return (
+                          <>
+                            <div className="skillElement">{x}</div>
+                            {index !== jsonData.Skills.length - 1 && (
+                              <Divider
+                                orientation="vertical"
+                                variant="middle"
+                                flexItem
+                              />
+                            )}
+                          </>
+                        );
+                      })}
                   </div>
                 </div>
 
@@ -575,63 +532,19 @@ font-size:1rem;
                               })}
                             </div>
                           </div>
-                          {index !== jsonData.WorkExperience.length - 1 && (
+                          {/* {index !== jsonData.WorkExperience.length - 1 && (
                             <Divider sx={{ width: "60%", margin: "0 auto" }} />
-                          )}
+                          )} */}
                         </>
                       );
                     })}
                 </div>
-                <div className="educationBox">
-                  <Divider textAlign="center" sx={{ fontSize: "0.9rem" }}>
-                    Education
-                  </Divider>
-                  {jsonData.Education &&
-                    jsonData.Education.map((x, index) => {
-                      return (
-                        <>
-                          <div className="educationElement">
-                            <div className="qualificationInfoBox">
-                              <div className="qualificationBox">
-                                {x.qualification}
-                              </div>
-                              <div className="schoolBox">{x.school}</div>
-                            </div>
-                            <div className="educationYearBox">{x.doj}</div>
-                          </div>
-                          {index !== jsonData.Education.length - 1 && (
-                            <Divider sx={{ width: "60%", margin: "0 auto" }} />
-                          )}
-                        </>
-                      );
-                    })}
-                </div>
-                <div className="skillsBox">
-                  <Divider textAlign="center" sx={{ fontSize: "0.9rem" }}>
-                    Skills
-                  </Divider>
-                  <div className="skillElements">
-                    {jsonData.Skills &&
-                      jsonData.Skills.map((x, index) => {
-                        return (
-                          <>
-                            <div className="skillElement">{x}</div>
-                            {index !== jsonData.Skills.length - 1 && (
-                              <Divider
-                                orientation="vertical"
-                                variant="middle"
-                                flexItem
-                              />
-                            )}
-                          </>
-                        );
-                      })}
-                  </div>
-                </div>
+
                 <div className="projectBox">
                   <Divider textAlign="center" sx={{ fontSize: "0.9rem" }}>
                     Projects
                   </Divider>
+
                   {jsonData.Project &&
                     jsonData.Project.map((x, index) => {
                       let url = x.projectlink;
@@ -663,9 +576,33 @@ font-size:1rem;
                               })}
                             </div>
                           </div>
-                          {index !== jsonData.Project.length - 1 && (
+                          {/* {index !== jsonData.Project.length - 1 && (
                             <Divider sx={{ width: "60%", margin: "0 auto" }} />
-                          )}
+                          )} */}
+                        </>
+                      );
+                    })}
+                </div>
+                <div className="educationBox">
+                  <Divider textAlign="center" sx={{ fontSize: "0.9rem" }}>
+                    Education
+                  </Divider>
+                  {jsonData.Education &&
+                    jsonData.Education.map((x, index) => {
+                      return (
+                        <>
+                          <div className="educationElement">
+                            <div className="qualificationInfoBox">
+                              <div className="qualificationBox">
+                                {x.qualification}
+                              </div>
+                              <div className="schoolBox">{x.school}</div>
+                            </div>
+                            <div className="educationYearBox">{x.doj}</div>
+                          </div>
+                          {/* {index !== jsonData.Education.length - 1 && (
+                            <Divider sx={{ width: "60%", margin: "0 auto" }} />
+                          )} */}
                         </>
                       );
                     })}
@@ -685,9 +622,9 @@ font-size:1rem;
                               {x.subtitle}
                             </div>
                           </div>
-                          {index !== jsonData.Achievement.length - 1 && (
+                          {/* {index !== jsonData.Achievement.length - 1 && (
                             <Divider sx={{ width: "60%", margin: "0 auto" }} />
-                          )}
+                          )} */}
                         </>
                       );
                     })}
@@ -702,7 +639,7 @@ font-size:1rem;
                           return (
                             <>
                               <div className="interestElement">{x}</div>
-                              {index !== jsonData.Skills.length - 1 && (
+                              {index !== jsonData.Interest.length - 1 && (
                                 <Divider
                                   orientation="vertical"
                                   variant="middle"
@@ -756,7 +693,7 @@ font-size:1rem;
           />
         </div>
       )}
-    </>
+    </div>
   );
 }
 

@@ -1,22 +1,20 @@
 import React from "react";
-import { TextField, Button, CircularProgress } from "@mui/material";
-import { useRef, useState, useContext, useEffect } from "react";
+import { CircularProgress } from "@mui/material";
+import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import md5 from "md5";
 import { useNavigate } from "react-router-dom";
 import "../login.css";
 import Navbar from "../../Component/Navbar";
-import { Google } from "@mui/icons-material";
-import { styled } from "@mui/material/styles";
 import {
   WhiteTextField,
   GradientButton,
-  WhiteDeleteIcon,
 } from "../../MUIStyledComponents";
 import cookie from "js-cookie";
 
 function Registration() {
   const isAuthenticated = cookie.get("isAuthenticated");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -33,21 +31,17 @@ function Registration() {
   const passwordRef = useRef(null);
   const nameRef = useRef(null);
 
-  const navigate = useNavigate();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const nameRegex = /^[A-Za-z\s]+$/;
 
-  const isValidEmail = (email) => {
-    return emailRegex.test(email);
-  };
-  const isValidName = (name) => {
-    return nameRegex.test(name);
-  };
+  const isValidEmail = (email) => emailRegex.test(email);
+  const isValidName = (name) => nameRegex.test(name);
 
   const handleRegistration = () => {
     setEmptyEmail(false);
     setEmptyName(false);
     setEmptyPassword(false);
+
     const _email = emailRef.current.value;
     const _password = passwordRef.current.value;
     const _name = nameRef.current.value;
@@ -59,29 +53,20 @@ function Registration() {
         let url = process.env.REACT_APP_API_URL + "/register";
         axios
           .post(url, UserData, {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
           })
           .then((res) => {
-            if (res.status === 200) {
-              console.log("Registration Data Sent");
-              navigate("/cv");
-            } else navigate("/register");
+            if (res.status === 200) navigate("/cv");
+            else navigate("/register");
           })
           .catch((err) => {
             setLoading(false);
             console.log(err);
           })
-          .finally(() => {
-            setLoading(false);
-          });
-      } else if (!isValidEmail(_email)) {
-        setEmptyEmail(true);
-        setLoading(false);
-      } else if (!isValidName(_name)) {
-        setEmptyName(true);
-        setLoading(false);
+          .finally(() => setLoading(false));
+      } else {
+        if (!isValidEmail(_email)) { setEmptyEmail(true); setLoading(false); }
+        else if (!isValidName(_name)) { setEmptyName(true); setLoading(false); }
       }
     } else {
       setLoading(false);
@@ -91,76 +76,97 @@ function Registration() {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") handleRegistration();
+  };
+
   return (
-    <>
+    <div className="auth_page">
       <Navbar />
       <div className="reg_container">
-        <div className="headingLogin">Register with us</div>
+        <div className="auth_header">
+          <div className="auth_logo">✨</div>
+          <div className="headingLogin">Create account</div>
+          <p className="auth_subtitle">Start building your professional CV today</p>
+        </div>
+
         <WhiteTextField
-          id="outlined-basic"
-          label="Name"
+          label="Full Name"
           variant="outlined"
           type="text"
           name="name"
+          id="reg-name"
           inputRef={nameRef}
           error={emptyName}
+          helperText={emptyName ? "Name is required (letters only)" : ""}
           sx={{ width: "100%" }}
-          helperText={
-            emptyName ? "Name cannot be empty or has special characters" : ""
-          }
+          onKeyDown={handleKeyDown}
         />
         <WhiteTextField
-          id="outlined-basic"
           label="Email"
           variant="outlined"
-          type="text"
+          type="email"
           name="email"
+          id="reg-email"
           inputRef={emailRef}
           error={emptyEmail}
+          helperText={emptyEmail ? "Enter a valid email" : ""}
           sx={{ width: "100%" }}
-          helperText={emptyEmail ? "Email cannot be empty or invalid" : ""}
+          onKeyDown={handleKeyDown}
         />
         <WhiteTextField
-          id="outlined-basic"
           label="Password"
           variant="outlined"
           type="password"
           name="password"
+          id="reg-password"
           inputRef={passwordRef}
           error={emptyPassword}
+          helperText={emptyPassword ? "Password is required" : ""}
           sx={{ width: "100%" }}
-          helperText={emptyPassword ? "Password cannot be empty" : ""}
+          onKeyDown={handleKeyDown}
         />
+
         <GradientButton
+          id="reg-submit"
           variant="contained"
           type="button"
           onClick={handleRegistration}
-          sx={{
-            width: "100%",
-            backgroundColor: "#ce4949",
-            border: "2px solid #ce4949",
-          }}
+          sx={{ width: "100%", py: 1.1 }}
         >
           {loading ? (
-            <CircularProgress size={24} sx={{ color: "#FFF" }} />
+            <CircularProgress size={20} sx={{ color: "#fff" }} />
           ) : (
-            "Submit"
+            "Create Account"
           )}
         </GradientButton>
-        <span className="reg_login">
-          Already have an account?
-          <GradientButton
-            variant="contained"
-            type="button"
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
-            Login
-          </GradientButton>
-        </span>
+
+        <div className="auth_divider">
+          <span>Already have an account?</span>
+        </div>
+
+        <GradientButton
+          id="go-to-login"
+          type="button"
+          onClick={() => navigate("/login")}
+          sx={{
+            width: "100%",
+            py: 1,
+            background: "transparent",
+            border: "1px solid rgba(124, 106, 247, 0.3)",
+            color: "#a78bfa",
+            "&:hover": {
+              background: "rgba(124, 106, 247, 0.08)",
+              border: "1px solid rgba(124, 106, 247, 0.6)",
+              color: "#c4b5fd",
+              transform: "translateY(-1px)",
+            },
+          }}
+        >
+          Sign In
+        </GradientButton>
       </div>
-    </>
+    </div>
   );
 }
 

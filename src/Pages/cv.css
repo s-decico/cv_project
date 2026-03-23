@@ -1,117 +1,122 @@
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Hex codes: Peach #FCEDDA, Burnt Orange #EE4E34 */
-/* Hex codes: Scarlet #B85042, Light Olive #E7E8D1, Light Teal #A7BEAE */
-/* #45B5BA #BA4A45 */
+/* =====================
+   CV INPUT FORM PAGE
+   ===================== */
 
-/* FFFAD7 FCDDB0 E97777 */
+.cvinput_page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  position: relative;
+}
 
-/* #197C88 #FF9F9F #E97777 #FCDDB0 #FFFAD7 */
-/* Cream palette: #1A120B #3C2A21 #D5CEA3 #E5E5CB */
-
-/* Secondary: #3c2a215a Primary: #1a120b7a */
-/*
-.colour_scheme{
-    color:#F6F4EB
-#91C8E4
-#749BC2
-#4682A9 
-#4977ce
-#7c50b1
-
-#FFFAD7 #FCDDB0 #E97777
-#201a16
-#E5E5CB
-
-#1a120b7a #3c2a215a #D5CEA3 #e5e5cb58
-#b7b7b7
-#968200
-}*/
+.cvinput_page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 80% 10%, rgba(124, 106, 247, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 10% 90%, rgba(167, 139, 250, 0.06) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
 
 .cvinput_box {
-  width: 70%;
-  margin: 2rem auto 2rem auto;
-  margin-bottom: 4rem;
-  border-radius: 1rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 1.5rem;
-  background-color: transparent;
-  backdrop-filter: blur(14px);
-  background-color: #e5e5cb81;
-  box-shadow: 0rem 0rem 10px rgba(0, 0, 0, 0.484);
-  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  width: min(760px, 92%);
+  margin: 2rem auto 4rem;
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
 }
 
 .heading {
-  background-color: #f6eebe;
-  color: black;
-  height: 4rem;
+  background: linear-gradient(135deg, rgba(124, 106, 247, 0.15) 0%, rgba(167, 139, 250, 0.08) 100%);
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  height: 4.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 1rem 1rem 0rem 0rem;
-  font-size: 2rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.linearprogress {
+  padding: 1.25rem 1.5rem 0;
+}
+
+.cvinputform {
+  padding: 0;
 }
 
 .detailsComponent {
-  margin: 0 auto;
-  border-radius: 1rem 1rem 1rem 1rem;
-  padding: 2rem;
+  margin: 1.25rem 1.5rem;
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   display: grid;
   grid-template-columns: 1fr;
-  grid-gap: 1rem;
-  background-color: transparent;
-  margin: 0rem 1rem 1rem 1rem;
-  background-color: #e5e5cb;
+  gap: 1rem;
 }
 
 .pagination {
   display: flex;
-  gap: 0.5rem;
-  padding-left: 1rem;
-  margin: 1rem 0rem 1rem 0rem;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem 1.5rem;
+  align-items: center;
 }
 
-.linearprogress {
-  padding: 0rem 1rem 0rem 1rem;
-}
+/* ---- Sub-layout components ---- */
 
 .userDetails {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 1rem;
+  gap: 1rem;
 }
 
 .workExperienceProjMain {
   display: grid;
-  grid-template-columns: 9fr 1fr;
-  grid-gap: 1rem;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: start;
 }
+
 .workExperienceProjTitle {
   display: flex;
   flex-direction: column;
+  gap: 0.75rem;
 }
+
 .workExpDate {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .workExperienceProjSub {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  gap: 1rem;
+  transition: border-color var(--transition-base);
+}
 
-  background-color: #f6eebe;
-  padding: 1rem;
-  border: 1px solid #fff;
-  border-radius: 10px;
-  justify-content: space-between;
-  grid-gap: 2.5rem;
+.workExperienceProjSub:hover {
+  border-color: var(--border-default);
 }
 
 .detailUnit {
@@ -122,20 +127,40 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(196, 53, 53, 0.791);
-  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  min-width: 48px;
+  min-height: 48px;
 }
+
 .workexpprojdelete:hover {
-  background-color: rgb(196, 53, 53);
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
   cursor: pointer;
+}
+
+.educationMain {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .educationSub {
   display: grid;
-  grid-template-columns: 6fr 6fr 6fr 1fr;
-  grid-gap: 1rem;
-  justify-content: space-between;
-  margin: 1rem 0rem 1rem 0rem;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-base);
+}
+
+.educationSub:hover {
+  border-color: var(--border-default);
 }
 
 .skillLang {
@@ -151,88 +176,142 @@
   gap: 0.5rem;
 }
 
-.achivementsub {
-  display: grid;
-  grid-template-columns: 8fr 8fr 1fr;
-  grid-gap: 1rem;
-  justify-content: space-between;
-  margin: 1rem 0rem 1rem 0rem;
-}
-
-.CVBox {
-  background-color: white;
-  width: 70%;
-  margin: 0 auto 2rem auto;
-  padding: 1rem;
-  border-radius: 1rem;
-}
-
-.createCVBox {
+.achievementMain {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 1rem;
+}
+
+.achivementsub {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1rem;
   align-items: center;
-  padding-top: 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-base);
 }
-.createCVText {
-  font-size: 1.5rem;
+
+.achivementsub:hover {
+  border-color: var(--border-default);
 }
+
+/* =====================
+   CV PREVIEW PAGE
+   ===================== */
+
+.cv_preview_page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+/* Actions bar above CV */
 .cvboxButtonGroup {
-  margin: 2rem auto 2rem auto;
   display: flex;
-  flex-direction: row;
-  align-items: center;
   gap: 1rem;
   justify-content: center;
+  align-items: center;
+  padding: 1.5rem 2rem;
 }
 
 .cvpdfButtons {
-  width: 20%;
-  padding: 2rem 2.5rem;
-  color: #fff;
-  font-weight: bold;
-  border-radius: 10px;
-  letter-spacing: 4px;
-  transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: none;
   cursor: pointer;
-  border: 3px solid #fff;
-  font-size: 1rem;
-  box-shadow: none;
-  transition: background-color 1s;
-  background: linear-gradient(90deg, #ce4949, transparent) #d47878;
+  transition: all var(--transition-base);
+  letter-spacing: 0.01em;
 }
 
-.cvpdfButtons:hover {
+.cvpdfButtons:first-child {
+  background: linear-gradient(135deg, #7c6af7 0%, #a78bfa 100%);
   color: #fff;
-  background-color: #d5cea3;
+  box-shadow: 0 4px 20px rgba(124, 106, 247, 0.4);
 }
 
+.cvpdfButtons:first-child:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(124, 106, 247, 0.6);
+}
+
+.cvpdfButtons:last-child {
+  background: transparent;
+  color: #a78bfa;
+  border: 1px solid rgba(124, 106, 247, 0.3);
+}
+
+.cvpdfButtons:last-child:hover {
+  background: rgba(124, 106, 247, 0.08);
+  border-color: rgba(124, 106, 247, 0.6);
+  transform: translateY(-2px);
+}
+
+/* CV Document itself - keep print-friendly white */
+.CVBox {
+  background-color: #ffffff;
+  color: #1a1a2e;
+  width: min(820px, 92%);
+  margin: 0 auto 3rem;
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.6);
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+/* Empty state for no CV */
+.home_body.cvempty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  min-height: 60vh;
+  text-align: center;
+}
+
+/* CV Content Styles (printed document) */
 .nameBox {
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 2rem 0rem 2rem 0rem;
+  padding: 1rem 0 0.75rem;
   font-size: 2rem;
+  font-weight: 700;
+  color: #111;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  letter-spacing: -0.02em;
 }
 
 .basicDetailsBox {
   display: flex;
   flex-direction: column;
-  padding: 0.5rem 0rem 0.5rem 0rem;
-  gap: 2rem;
+  justify-content: center;
+  padding: 0.25rem 2rem 0.75rem;
 }
 
 .basicDetailsElement {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 0.35rem;
+  color: #444;
+  font-size: 0.85rem;
 }
 
 .basicDetailsElementR1 {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .basicDetailsElementR2 {
@@ -240,51 +319,69 @@
   flex-direction: row;
   justify-content: space-evenly;
 }
+
 .workExperienceBox {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-
-  padding: 0.5rem 0rem 0.5rem 0rem;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
   page-break-inside: avoid;
 }
+
 .workExpElement {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 }
+
 .workExpHeaderBox {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
+
 .designationBox {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111;
 }
+
 .companyBox {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.workExpYearBox {
+  font-size: 0.8rem;
+  color: #777;
+  white-space: nowrap;
 }
 
 .workexpDetailsElement {
   list-style-type: disc;
+  margin-left: 1.2rem;
+  font-size: 0.875rem;
+  color: #333;
 }
 
 .educationBox {
   page-break-inside: avoid;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
 
-  padding: 0.5rem 0rem 0.5rem 0rem;
-}
 .qualificationBox {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111;
 }
+
 .schoolBox {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
+  color: #555;
 }
 
 .educationElement {
@@ -294,236 +391,142 @@
   justify-content: space-between;
 }
 
-.skillsBox {
-  padding: 0.5rem 0rem 0.5rem 0rem;
+.educationYearBox {
+  font-size: 0.8rem;
+  color: #777;
 }
+
+.skillsBox {
+  padding: 0.5rem 0;
+}
+
 .skillElements {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  gap: 1rem;
-  height: 2rem;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.skillElement {
+  background: #f3f0ff;
+  color: #5b45d8;
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid #ddd8ff;
 }
 
 .projectBox {
   display: flex;
   flex-direction: column;
-
-  padding: 0.5rem 0rem 0.5rem 0rem;
-  gap: 1rem;
+  padding: 0.5rem 0;
+  gap: 0.75rem;
   page-break-inside: avoid;
 }
 
 .projectnameBox {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-.projectlinkBox {
   font-size: 1rem;
-  font-weight: 100;
+  font-weight: 700;
+  color: #111;
+}
+
+.projectlinkBox {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #5b45d8;
 }
 
 .projectElement {
   display: flex;
   flex-direction: column;
+  gap: 0.25rem;
 }
+
 .projectinfoBox {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
+
+.projectyearBox {
+  font-size: 0.8rem;
+  color: #777;
+}
+
 .projectDetailsBox {
   list-style-type: disc;
+  margin-left: 1.2rem;
+  font-size: 0.875rem;
+  color: #333;
 }
 
 .achievementBox {
   page-break-inside: avoid;
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
 
-  gap: 1rem;
-  padding: 0.5rem 0rem 0.5rem 0rem;
-}
 .achievementTitleBox {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111;
 }
+
 .achievementSubtitleBox {
-  font-size: 1.1rem;
+  font-size: 0.875rem;
+  color: #555;
 }
 
 .interestAndLangBox {
   page-break-inside: avoid;
   display: flex;
   flex-direction: row;
-
   width: 100%;
-  gap: 5rem;
-  padding: 1rem 4rem 3rem 4rem;
+  gap: 4rem;
+  padding: 0.5rem 0 1rem;
 }
-.interestBox {
-  flex: 1;
-}
+
+.interestBox,
 .languageBox {
   flex: 1;
 }
-.languageElementBox {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  align-items: center;
-  justify-content: center;
-  height: 2rem;
-}
+
+.languageElementBox,
 .interestElementBox {
-  flex: 1;
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   align-items: center;
-  height: 2rem;
-  justify-content: center;
+  margin-top: 0.5rem;
 }
 
-@media (max-width: 1280px) {
+.languageElement,
+.interestElement {
+  font-size: 0.85rem;
+  color: #444;
 }
+
+
+/* =====================
+   RESPONSIVE
+   ===================== */
 
 @media (max-width: 750px) {
-  .cvpdfButtons {
-    width: 35%;
-    height: 4rem;
-    font-size: 0.8rem;
-    padding: 0rem 0rem;
-    letter-spacing: 0;
-  }
-
-  .CVBox {
-    width: 90%;
-    margin: 0 auto 2rem auto;
-    padding: 1rem;
-    font-size: 0.8rem;
-  }
-
-  /*Start*/
-
-  .nameBox {
-    padding: 0rem 0rem 1rem 0rem;
-    font-size: 2rem;
-  }
-
-  .basicDetailsBox {
-    padding: 0.5rem 0rem 0.5rem 0rem;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-  }
-
-  .workExperienceBox {
-    gap: 0.5rem;
-    padding: 0.5rem 0rem 0.5rem 0rem;
-  }
-  .workExpElement {
-    gap: 0.5rem;
-  }
-
-  .designationBox {
-    font-size: 0.9rem;
-  }
-  .companyBox {
-    font-size: 0.8rem;
-  }
-
-  .educationBox {
-    gap: 0.5rem;
-    padding: 0.5rem 0rem 0.5rem 0rem;
-  }
-  .qualificationBox {
-    font-size: 0.9rem;
-  }
-  .schoolBox {
-    font-size: 0.8rem;
-  }
-
-  .skillsBox {
-    padding: 0.5rem 0rem 0.5rem 0rem;
-  }
-  .skillElements {
-    gap: 0.5rem;
-    height: 2rem;
-    font-weight: 500;
-  }
-
-  .projectBox {
-    padding: 0.5rem 0rem 0.5rem 0rem;
-    gap: 0.5rem;
-  }
-
-  .projectnameBox {
-    font-size: 0.9rem;
-  }
-  .projectlinkBox {
-    font-size: 0.9rem;
-  }
-
-  .achievementBox {
-    gap: 0.5rem;
-    padding: 0.5rem 0rem 0.5rem 0rem;
-  }
-  .achievementTitleBox {
-    font-size: 0.9rem;
-    font-weight: bold;
-  }
-  .achievementSubtitleBox {
-    font-size: 0.8rem;
-  }
-
-  .interestAndLangBox {
-    width: 100%;
-    gap: 2rem;
-    padding: 0.5rem 0rem 2rem 0rem;
-  }
-
-  .languageElementBox {
-    gap: 0.5rem;
-    height: 2rem;
-  }
-  .interestElementBox {
-    gap: 0.5rem;
-    height: 2rem;
-  }
-
-  /*End*/
-
   .cvinput_box {
-    width: 90%;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 1rem;
+    width: 95%;
   }
 
   .detailsComponent {
-    margin: 0 auto;
-    border-radius: 1rem 1rem 1rem 1rem;
-    padding: 0.5rem;
-
-    grid-template-columns: 1fr;
-    grid-gap: 1rem;
-
-    margin: 0rem 1rem 1rem 1rem;
-  }
-
-  .pagination {
-    display: flex;
-    gap: 0.5rem;
-    padding-left: 1rem;
-    margin: 1rem 0rem 1rem 0rem;
-  }
-
-  .linearprogress {
-    padding: 0rem 1rem 0rem 1rem;
+    margin: 1rem;
+    padding: 1.25rem;
   }
 
   .userDetails {
@@ -531,57 +534,36 @@
   }
 
   .workExpDate {
-    display: flex;
     flex-direction: column;
-    gap: 0rem;
   }
 
   .workExperienceProjSub {
     grid-template-columns: 1fr;
-    padding: 1rem 0.5rem 1rem 0.5rem;
-
-    grid-gap: 1rem;
   }
 
-  .workexpprojdelete {
-    background-color: rgba(196, 53, 53, 0.791);
-    border-radius: 10px;
-  }
-  .workexpprojdelete:hover {
-    background-color: rgb(196, 53, 53);
-    cursor: pointer;
-  }
-
-  .educationSub {
-    display: flex;
-    flex-direction: column;
-    grid-gap: 1rem;
-    padding: 1rem 0.5rem 1rem 0.5rem;
-    background-color: #f6eebe;
-    border: 1px solid #fff;
-    border-radius: 10px;
+  .educationSub,
+  .achivementsub {
+    grid-template-columns: 1fr;
+    padding: 1rem;
   }
 
   .skillLang {
     flex-direction: column;
-    gap: 1rem;
-    justify-content: space-between;
-    padding: 1rem 0rem;
   }
 
-  .skillLangIntInput {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .CVBox {
+    width: 96%;
+    padding: 1.25rem 1rem;
+    font-size: 0.875rem;
   }
 
-  .achivementsub {
-    display: flex;
+  .cvpdfButtons {
+    font-size: 0.8rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  .interestAndLangBox {
     flex-direction: column;
-    grid-gap: 1rem;
-    padding: 1rem 0.5rem 1rem 0.5rem;
-    background-color: #f6eebe;
-    border: 1px solid #fff;
-    border-radius: 10px;
+    gap: 1.5rem;
   }
 }

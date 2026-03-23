@@ -396,7 +396,7 @@ function CVInputBox() {
           </div>
         </>
       );
-      headingTitle = "Skills, Languages and Interests";
+      headingTitle = "Skills & Others";
       break;
     case 5:
       currentPageComponent = (
@@ -478,11 +478,10 @@ function CVInputBox() {
   }
   //Render function
   return (
-    <>
+    <div className="cvinput_page">
       <Navbar />
       <div className="cvinput_box">
         <div className="heading">{headingTitle}</div>
-        {/* <div className="detailsBox"> */}
         <div className="linearprogress">
           <LinearWithValueLabel currentPage={currentPage} />
         </div>
@@ -495,39 +494,33 @@ function CVInputBox() {
               <GradientButton
                 variant="outlined"
                 onClick={prevPage}
-                sx={{ borderRadius: "30px", border: "2px solid #ce4949" }}
+                sx={{ borderRadius: "999px", border: "none" }}
               >
-                Previous
+                ← Previous
               </GradientButton>
             )}
             {currentPage !== 6 ? (
               <GradientButton
                 variant="outlined"
                 onClick={nextPage}
-                sx={{ borderRadius: "30px", border: "2px solid #ce4949" }}
+                sx={{ borderRadius: "999px", border: "none" }}
               >
-                Next
+                Next →
               </GradientButton>
             ) : (
               <GradientButton
                 variant="contained"
                 type="button"
                 onClick={handleFormSubmit}
-                sx={{
-                  borderRadius: "30px",
-                  backgroundColor: "",
-                  border: "2px solid #ce4949",
-                  background:
-                    "linear-gradient(90deg, #ce4949, transparent) #D5CEA3",
-                }}
+                sx={{ borderRadius: "999px", border: "none" }}
               >
-                Submit
+                Save & View CV ✓
               </GradientButton>
             )}
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }
 export default CVInputBox;

@@ -1,25 +1,16 @@
 import React from "react";
-import { TextField, Button, CircularProgress } from "@mui/material";
-
-// import Box from "@mui/joy/Box";
-// import Button from "@mui/joy/Button";
-// import Link from "@mui/joy/Link";
-// import IconButton from "@mui/joy/IconButton";
-// import CircularProgress from "@mui/joy/CircularProgress";
-
-import { useRef, useEffect, useContext, useState } from "react";
+import { CircularProgress } from "@mui/material";
+import { useRef, useEffect, useState } from "react";
 import axios from "axios";
 import md5 from "md5";
 import { useNavigate } from "react-router-dom";
 import cookie from "js-cookie";
-import { styled } from "@mui/material/styles";
-
 import Navbar from "../../Component/Navbar";
 import {
   WhiteTextField,
   GradientButton,
-  WhiteDeleteIcon,
 } from "../../MUIStyledComponents";
+import "../login.css";
 
 function Login() {
   const navigate = useNavigate();
@@ -38,17 +29,7 @@ function Login() {
     }
   }, [isAuthenticated]);
 
-  const getCookie = (name) => {
-    const cookieValue = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith(name));
-
-    return cookieValue ? cookieValue.split("=")[1] : null;
-  };
-
   const handleLogin = () => {
-    let abc = process.env.REACT_APP_ENVIRONMENT;
-    console.log("ENV", abc);
     setPasswordIncorrect(false);
     setUserNotFound(false);
     setEmptyEmail(false);
@@ -61,137 +42,132 @@ function Login() {
       setLoading(true);
       let UserData = { email: _email, password: md5(_password) };
       let url = process.env.REACT_APP_API_URL + "/login";
-      let tokenValue;
-      let isAuthenticatedValue;
-      console.log(url);
       axios
         .post(url, UserData, {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
           withCredentials: true,
-          // credentials: "same-origin",
         })
         .then(function (res) {
-          console.log(res.status);
-          console.log("Login Data Sent");
-          switch (res.status) {
-            case 200:
-              console.log("You are logged in!");
-              if (res.data) {
-                tokenValue = res.data.token;
-                isAuthenticatedValue = res.data.isAuthenticated;
-              }
-
+          if (res.status === 200) {
+            if (res.data) {
+              const tokenValue = res.data.token;
+              const isAuthenticatedValue = res.data.isAuthenticated;
               if (tokenValue && isAuthenticatedValue) {
-                cookie.set("token", tokenValue, {
-                  secure: true,
-                  sameSite: "None",
-                });
-                cookie.set("isAuthenticated", isAuthenticatedValue, {
-                  secure: true,
-                  sameSite: "None",
-                });
+                cookie.set("token", tokenValue, { secure: true, sameSite: "None" });
+                cookie.set("isAuthenticated", isAuthenticatedValue, { secure: true, sameSite: "None" });
               }
-
-              // console.log(res.data);
-              navigate("/cv");
-              break;
-            default:
-              console.log("Unexpected response");
-              break;
+            }
+            navigate("/cv");
           }
         })
         .catch(function (err) {
           setLoading(false);
-          if (err) {
-            switch (err.response.status) {
-              case 401:
-                console.log("Incorrect Password");
-                setPasswordIncorrect(true);
-                break;
-              case 404:
-                console.log("User not found");
-                setUserNotFound(true);
-                break;
-              default:
-                console.log("Unexpected response");
-                break;
-            }
+          if (err && err.response) {
+            if (err.response.status === 401) setPasswordIncorrect(true);
+            else if (err.response.status === 404) setUserNotFound(true);
           }
         })
-        .finally(() => {
-          setLoading(false);
-        });
+        .finally(() => setLoading(false));
     } else {
-      setLoading(false);
       if (!_email) setEmptyEmail(true);
       if (!_password) setEmptyPassword(true);
     }
   };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") handleLogin();
+  };
+
   return (
-    <>
+    <div className="auth_page">
       <Navbar />
       <div className="login_container">
-        <div className="headingLogin">Login</div>
+        <div className="auth_header">
+          <div className="auth_logo">🔐</div>
+          <div className="headingLogin">Welcome back</div>
+          <p className="auth_subtitle">Sign in to your Resumate account</p>
+        </div>
+
         <WhiteTextField
           label="Email"
           variant="outlined"
           type="email"
           name="email"
+          id="login-email"
           inputRef={emailRef}
           error={userNotFound || emptyEmail}
           helperText={
             userNotFound
-              ? "User not found, incorrect email"
+              ? "No account found with this email"
               : emptyEmail
-              ? "Email cannot be empty"
+              ? "Email is required"
               : ""
           }
           sx={{ width: "100%" }}
+          onKeyDown={handleKeyDown}
         />
         <WhiteTextField
           label="Password"
           variant="outlined"
           type="password"
           name="password"
+          id="login-password"
           inputRef={passwordRef}
-          error={userNotFound || passwordIncorrect || emptyPassword}
+          error={passwordIncorrect || emptyPassword}
           helperText={
             passwordIncorrect
               ? "Incorrect password"
               : emptyPassword
-              ? "Password cannot be empty"
+              ? "Password is required"
               : ""
           }
           sx={{ width: "100%" }}
+          onKeyDown={handleKeyDown}
         />
+
         <GradientButton
+          id="login-submit"
           variant="contained"
           type="button"
           onClick={handleLogin}
-          sx={{
-            width: "100%",
-            backgroundColor: "#ce4949",
-            border: "2px solid #ce4949",
-          }}
+          sx={{ width: "100%", py: 1.1 }}
         >
           {loading ? (
-            <CircularProgress size={24} sx={{ color: "#FFF" }} />
+            <CircularProgress size={20} sx={{ color: "#fff" }} />
           ) : (
-            "Login"
+            "Sign In"
           )}
         </GradientButton>
-        New to us? Create an account
-        <GradientButton
-          onClick={() => {
-            navigate("/register");
-          }}
-        >
-          Create Account
-        </GradientButton>
+
+        <div className="auth_divider">
+          <span>Don't have an account?</span>
+        </div>
+
+        <div className="auth_switch">
+          <GradientButton
+            id="go-to-register"
+            variant="outlined"
+            type="button"
+            onClick={() => navigate("/register")}
+            sx={{
+              width: "100%",
+              py: 1,
+              background: "transparent",
+              border: "1px solid rgba(124, 106, 247, 0.3)",
+              color: "#a78bfa",
+              "&:hover": {
+                background: "rgba(124, 106, 247, 0.08)",
+                border: "1px solid rgba(124, 106, 247, 0.6)",
+                color: "#c4b5fd",
+                transform: "translateY(-1px)",
+              },
+            }}
+          >
+            Create Account
+          </GradientButton>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
