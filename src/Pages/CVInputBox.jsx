@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  userDetailsAtom,
-  workCountAtom,
-  workExperienceAtom,
-} from "../Atoms/CVAtoms";
+
 import "./cv.css";
 import AchievementInput from "./InputComponents/AchievementInput";
 import EducationInput from "./InputComponents/EducationInput";
@@ -13,13 +9,12 @@ import LanguageInput from "./InputComponents/LanguageInput";
 import ProjectsInput from "./InputComponents/ProjectsInput";
 import SkillsInput from "./InputComponents/SkillsInput";
 import WorkExperienceInput from "./InputComponents/WorkExperienceInput";
-import { IconButton } from "@mui/material";
+
 
 import axios from "axios";
 import cookie from "js-cookie";
 import Navbar from "../Component/Navbar";
 import {
-  WhiteTextField,
   GradientButton,
   WhiteDeleteIcon,
 } from "../MUIStyledComponents";

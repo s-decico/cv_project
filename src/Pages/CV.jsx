@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../Component/Header";
-import Navbar from "../Component/Navbar";
 import "./cv.css";
 import CVBox from "./CVBox";
 import CVInputBox from "./CVInputBox";

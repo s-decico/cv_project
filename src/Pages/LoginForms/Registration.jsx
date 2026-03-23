@@ -20,7 +20,7 @@ function Registration() {
     if (isAuthenticated) {
       navigate("/cv");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   const [emptyEmail, setEmptyEmail] = useState(false);
   const [emptyName, setEmptyName] = useState(false);

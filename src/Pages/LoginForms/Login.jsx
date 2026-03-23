@@ -27,7 +27,7 @@ function Login() {
     if (isAuthenticated) {
       navigate("/cv");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   const handleLogin = () => {
     setPasswordIncorrect(false);
