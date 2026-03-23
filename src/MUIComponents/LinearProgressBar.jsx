@@ -10,23 +10,38 @@ function LinearProgressWithLabel(props) {
       sx={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        gap: 2,
+        px: 0.5,
       }}
     >
-      <Box sx={{ width: "80%" }}>
+      <Box sx={{ flex: 1 }}>
         <LinearProgress
           variant="determinate"
           {...props}
           sx={{
-            backgroundColor: "#fff",
-            height: "0.7rem",
-            borderRadius: "10px",
+            backgroundColor: "rgba(124, 106, 247, 0.12)",
+            height: "6px",
+            borderRadius: "999px",
             "& .MuiLinearProgress-barColorPrimary": {
-              backgroundColor: "#ce4949", // Set the color of the progress indicator
+              background: "linear-gradient(90deg, #7c6af7, #a78bfa)",
+              borderRadius: "999px",
             },
           }}
         />
       </Box>
+      <Typography
+        variant="body2"
+        sx={{
+          color: "#a78bfa",
+          fontFamily: "'Inter', sans-serif",
+          fontSize: "0.78rem",
+          fontWeight: 600,
+          minWidth: "40px",
+          textAlign: "right",
+        }}
+      >
+        {`${Math.round(props.value)}%`}
+      </Typography>
     </Box>
   );
 }

@@ -1,12 +1,6 @@
-import { render } from "@testing-library/react";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { createElement } from "react";
-import {
-  userDetailsAtom,
-  workCountAtom,
-  workExperienceAtom,
-} from "../Atoms/CVAtoms";
+
 import "./cv.css";
 import AchievementInput from "./InputComponents/AchievementInput";
 import EducationInput from "./InputComponents/EducationInput";
@@ -15,21 +9,17 @@ import LanguageInput from "./InputComponents/LanguageInput";
 import ProjectsInput from "./InputComponents/ProjectsInput";
 import SkillsInput from "./InputComponents/SkillsInput";
 import WorkExperienceInput from "./InputComponents/WorkExperienceInput";
-import { TextField, Button, IconButton } from "@mui/material";
+
 
 import axios from "axios";
-import queryString from "query-string";
 import cookie from "js-cookie";
 import Navbar from "../Component/Navbar";
 import {
-  WhiteTextField,
   GradientButton,
   WhiteDeleteIcon,
 } from "../MUIStyledComponents";
 import UserDetailsInput from "./InputComponents/UserDetailsinput";
 
-import LinearProgress from "@mui/joy/LinearProgress";
-import Typography from "@mui/joy/Typography";
 import LinearWithValueLabel from "../MUIComponents/LinearProgressBar";
 
 function CVInputBox() {
@@ -37,15 +27,14 @@ function CVInputBox() {
   const navigate = useNavigate();
   const token = cookie.get("token");
   const isAuthenticated = cookie.get("isAuthenticated");
+
   useEffect(() => {
-    if (token == null || token == undefined) {
-      setTimeout(() => {
-        navigate("/login");
-      }, 0);
+    if (token === null || token === undefined) {
+      setTimeout(() => { navigate("/login"); }, 0);
     } else if (isAuthenticated && token) {
       setTimeout(() => {
         navigate("/cvinput");
-        let url = process.env.REACT_APP_API_URL + "/fetchform";
+        const url = process.env.REACT_APP_API_URL + "/fetchform";
         const fetchData = async () => {
           axios
             .get(url, {
@@ -57,221 +46,108 @@ function CVInputBox() {
             })
             .then(function (res) {
               if (res.status === 200) {
-                console.log("Received Data from Database");
                 jsonData = res.data;
-                console.log(jsonData);
                 if (jsonData != {}) {
-                  if (Object.keys(jsonData.BasicDetails).length > 0) {
-                    setUserDetails(jsonData.BasicDetails);
-                  }
-                  if (Object.keys(jsonData.WorkExperience).length > 0) {
-                    setworkExperienceObj(jsonData.WorkExperience);
-                  }
-                  if (Object.keys(jsonData.Education).length > 0) {
-                    setEducationObj(jsonData.Education);
-                  }
-                  if (Object.keys(jsonData.Project).length > 0) {
-                    setProjectObj(jsonData.Project);
-                  }
-                  if (jsonData.Achievement.length > 0) {
-                    setAchievementObj(jsonData.Achievement);
-                  }
-                  if (jsonData.Skills.length > 0) {
-                    setSkills(jsonData.Skills);
-                  }
-                  if (jsonData.Language.length > 0) {
-                    setLanguage(jsonData.Language);
-                  }
-                  if (jsonData.Interest.length > 0) {
-                    setInterests(jsonData.Interest);
-                  }
+                  if (Object.keys(jsonData.BasicDetails).length > 0) setUserDetails(jsonData.BasicDetails);
+                  if (Object.keys(jsonData.WorkExperience).length > 0) setworkExperienceObj(jsonData.WorkExperience);
+                  if (Object.keys(jsonData.Education).length > 0) setEducationObj(jsonData.Education);
+                  if (Object.keys(jsonData.Project).length > 0) setProjectObj(jsonData.Project);
+                  if (jsonData.Achievement.length > 0) setAchievementObj(jsonData.Achievement);
+                  if (jsonData.Skills.length > 0) setSkills(jsonData.Skills);
+                  if (jsonData.Language.length > 0) setLanguage(jsonData.Language);
+                  if (jsonData.Interest.length > 0) setInterests(jsonData.Interest);
                 }
               }
-              //console.log(jsonData);
             })
-            .catch(function (err) {
-              console.log(err);
-            });
-
-          //Set the fetched JSON values to the corresponding state variables
+            .catch(function (err) { console.log(err); });
         };
-
         fetchData();
       }, 0);
     }
   }, [token]);
 
-  //Main State
   const [userDetails, setUserDetails] = useState();
   const [fullDetails, setfullDetails] = useState();
-  //Variables
-  //--------------------------------
-  // const [_companyname, setCompanyname] = useState("");
-  // const [_designation, setDesignation] = useState("");
-  const [_qualification, setQualification] = useState("");
-  const [_school, setSchool] = useState("");
-  const [_doj, setDoj] = useState("");
-  const [_title, setTitle] = useState("");
-  const [_subtitle, setSubtitle] = useState("");
   let tempobj = {};
 
-  //Component States
-  //-------------------------------
-  //Work Exp
   const [workExperienceObj, setworkExperienceObj] = useState([]);
-  //Education
   const [educationObj, setEducationObj] = useState([]);
-  //Projects
   const [projectObj, setProjectObj] = useState([]);
-  //Achievement
   const [achievementObj, setAchievementObj] = useState([]);
-  //Skills
   const [skills, setSkills] = useState([]);
-  //Language
   const [language, setLanguage] = useState([]);
-  //Interests
   const [interests, setInterests] = useState([]);
 
-  //Component render function
-  //--------------------------------
-  const renderWorkExperience = (e) => {
-    console.log("Render Called renderWorkExperience");
-    setworkExperienceObj((prevState) => [
-      ...prevState,
-      { designation: "", companyname: "", details: [] },
-    ]);
-
-    console.log("Render", workExperienceObj);
+  const renderWorkExperience = () => {
+    setworkExperienceObj((prev) => [...prev, { designation: "", companyname: "", details: [] }]);
+  };
+  const renderEducation = () => {
+    setEducationObj((prev) => [...prev, { qualification: "", school: "", doj: "" }]);
+  };
+  const renderProjects = () => {
+    setProjectObj((prev) => [...prev, { projectname: "", projectyear: "", details: [] }]);
+  };
+  const renderAchievement = () => {
+    setAchievementObj((prev) => [...prev, { title: "", subtitle: "" }]);
   };
 
-  const renderEducation = (e) => {
-    console.log("Called");
-    setEducationObj((prevState) => [
-      ...prevState,
-      { qualification: "", school: "", doj: "" },
-    ]);
-  };
-
-  const renderProjects = (e) => {
-    setProjectObj((prevState) => [
-      ...prevState,
-      { projectname: "", projectyear: "", details: [] },
-    ]);
-  };
-  const renderAchievement = (e) => {
-    setAchievementObj((prevState) => [
-      ...prevState,
-      { title: "", subtitle: "" },
-    ]);
-  };
-
-  //Handler functions
-  //--------------------------------
   const handleUserDetails = (e) => {
-    let fieldName = e.target.name;
-    let fieldValue = e.target.value;
-    setUserDetails({ ...userDetails, [fieldName]: fieldValue });
+    setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
   };
 
   const handleEducationChange = (event, index) => {
     const { name, value } = event.target;
-    let fieldName = name;
-
-    const updatedEducationObj = [...educationObj];
-
-    // Get the current object from the copied array or create a new object if not exists
-    const eduObjtemp = updatedEducationObj[index] || {};
-
-    // Update the specific field in the copied object
-    eduObjtemp[name] = value;
-
-    // Update the copied object back into the copied array
-    updatedEducationObj[index] = eduObjtemp;
-
-    // Update the state with the modified array
-    setEducationObj(updatedEducationObj);
-    console.log(updatedEducationObj);
+    const updated = [...educationObj];
+    const temp = updated[index] || {};
+    temp[name] = value;
+    updated[index] = temp;
+    setEducationObj(updated);
   };
 
   const handleAchievementChange = (event, index) => {
     const { name, value } = event.target;
-    let fieldName = name;
-    // let achObjtemp = achievementObj[index];
-    // achObjtemp = { ...achObjtemp, [fieldName]: value };
-    // setAchievementObj(...achievementObj, achievementObj[index]);
-    // console.log(achObjtemp);
-
-    // Create a copy of the achievementObj array to modify
-    const updatedAchievementObj = [...achievementObj];
-
-    // Get the current object from the copied array or create a new object if not exists
-    const achObjtemp = updatedAchievementObj[index] || {};
-
-    // Update the specific field in the copied object
-    achObjtemp[name] = value;
-
-    // Update the copied object back into the copied array
-    updatedAchievementObj[index] = achObjtemp;
-
-    // Update the state with the modified array
-    setAchievementObj(updatedAchievementObj);
+    const updated = [...achievementObj];
+    const temp = updated[index] || {};
+    temp[name] = value;
+    updated[index] = temp;
+    setAchievementObj(updated);
   };
 
   const handleAchievementDelete = (index) => {
-    console.log("Delete:", index);
-    let temp = [...achievementObj];
+    const temp = [...achievementObj];
     temp.splice(index, 1);
     setAchievementObj(temp);
-    console.log(temp);
   };
-
   const handleProjDelete = (index) => {
-    let temp = [...projectObj];
+    const temp = [...projectObj];
     temp.splice(index, 1);
     setProjectObj(temp);
-    console.log(temp);
   };
-
   const handleWorkExpDelete = (index) => {
-    let temp = [...workExperienceObj];
+    const temp = [...workExperienceObj];
     temp.splice(index, 1);
     setworkExperienceObj(temp);
-    console.log(temp);
   };
-
   const handleEducationDelete = (index) => {
-    let temp = [...educationObj];
+    const temp = [...educationObj];
     temp.splice(index, 1);
     setEducationObj(temp);
   };
 
-  useEffect(() => {
-    console.log("WorkEx:", workExperienceObj);
-  }, [workExperienceObj]);
+  useEffect(() => { console.log("WorkEx:", workExperienceObj); }, [workExperienceObj]);
 
-  const sendDataToServer = (tempobj) => {
-    let url = process.env.REACT_APP_API_URL + "/cvinput";
-    console.log("data send call", token);
+  const sendDataToServer = (data) => {
+    const url = process.env.REACT_APP_API_URL + "/cvinput";
     axios
-      .post(url, tempobj, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+      .post(url, data, {
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
         withCredentials: true,
       })
-      .then(function (res) {
-        if (res.status === 200) {
-          console.log("Data Saved");
-          navigate("/cv");
-        }
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
+      .then(function (res) { if (res.status === 200) navigate("/cv"); })
+      .catch(function (err) { console.log(err); });
   };
-  const handleFormSubmit = (e) => {
-    tempobj = {};
+
+  const handleFormSubmit = () => {
     tempobj = {
       BasicDetails: userDetails,
       WorkExperience: workExperienceObj,
@@ -283,251 +159,237 @@ function CVInputBox() {
       Skills: skills,
     };
     setfullDetails(tempobj);
-    console.log("Submit called");
     sendDataToServer(tempobj);
   };
-  const [currentPage, setCurrentPage] = useState(1);
-  // Handler to navigate to the next page
-  const nextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
 
-  // Handler to navigate to the previous page
-  const prevPage = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const nextPage = () => setCurrentPage((p) => p + 1);
+  const prevPage = () => setCurrentPage((p) => p - 1);
+
+  const STEPS = [
+    { label: "Personal", icon: "👤" },
+    { label: "Work", icon: "💼" },
+    { label: "Education", icon: "🎓" },
+    { label: "Skills", icon: "⚡" },
+    { label: "Projects", icon: "🚀" },
+    { label: "Awards", icon: "🏆" },
+  ];
+
+  const sectionMeta = {
+    1: { title: "Personal Details", subtitle: "Let's start with the basics — who are you?" },
+    2: { title: "Work Experience", subtitle: "Add your professional journey, one role at a time." },
+    3: { title: "Education", subtitle: "List the institutions that shaped your knowledge." },
+    4: { title: "Skills & Others", subtitle: "Highlight your skills, languages, and interests." },
+    5: { title: "Projects", subtitle: "Showcase your builds, experiments, and creations." },
+    6: { title: "Achievements", subtitle: "Celebrate the awards and milestones you're proud of." },
   };
 
   let currentPageComponent;
-  let headingTitle = "";
   switch (currentPage) {
     case 1:
       currentPageComponent = (
-        <UserDetailsInput
-          handleUserDetails={handleUserDetails}
-          userDetails={userDetails}
-        />
+        <UserDetailsInput handleUserDetails={handleUserDetails} userDetails={userDetails} />
       );
-      headingTitle = "User Details";
       break;
+
     case 2:
       currentPageComponent = (
-        <>
-          <div className="workExperienceProjMain">
-            {workExperienceObj.length &&
-              workExperienceObj
-                .filter((obj) => Object.keys(obj).length > 0)
-                .map((obj, index) => {
-                  return (
-                    <>
-                      <WorkExperienceInput
-                        key={index}
-                        index={index}
-                        value={workExperienceObj[index]}
-                        setworkExperienceObj={setworkExperienceObj}
-                        workExperienceObj={workExperienceObj}
-                        handleWorkExpDelete={handleWorkExpDelete}
-                      />
-                      <div
-                        className="workexpprojdelete"
-                        onClick={() => {
-                          handleWorkExpDelete(index);
-                        }}
-                      >
-                        <IconButton aria-label="delete">
-                          <WhiteDeleteIcon />
-                        </IconButton>
-                      </div>
-                    </>
-                  );
-                })}
-
-            <GradientButton
-              variant="outlined"
-              type="button"
-              onClick={renderWorkExperience}
-              sx={{ borderRadius: "30px" }}
-            >
-              +
-            </GradientButton>
-          </div>
-        </>
+        <div className="workExperienceProjMain">
+          {workExperienceObj.length > 0 &&
+            workExperienceObj
+              .filter((obj) => Object.keys(obj).length > 0)
+              .map((obj, index) => (
+                <div key={index} className="entryCardWrapper">
+                  <WorkExperienceInput
+                    index={index}
+                    value={workExperienceObj[index]}
+                    setworkExperienceObj={setworkExperienceObj}
+                    workExperienceObj={workExperienceObj}
+                    handleWorkExpDelete={handleWorkExpDelete}
+                  />
+                  <div className="entryDeleteBtn" onClick={() => handleWorkExpDelete(index)}>
+                    <WhiteDeleteIcon />
+                  </div>
+                </div>
+              ))}
+          {workExperienceObj.length === 0 && (
+            <div className="emptyState">
+              <span className="emptyStateIcon">💼</span>
+              <p className="emptyStateText">No work experience added yet.</p>
+              <p className="emptyStateHint">Click the button below to add your first role.</p>
+            </div>
+          )}
+          <GradientButton variant="outlined" type="button" onClick={renderWorkExperience} sx={{ borderRadius: "30px" }}>
+            + Add Work Experience
+          </GradientButton>
+        </div>
       );
-      headingTitle = "Work Experience";
       break;
+
     case 3:
       currentPageComponent = (
-        <>
-          <div className="educationMain">
-            {educationObj.length &&
-              educationObj
-                .filter((obj) => Object.keys(obj).length > 0)
-                .map((obj, index) => {
-                  return (
-                    <EducationInput
-                      key={index}
-                      handleEducationChange={handleEducationChange}
-                      index={index}
-                      value={educationObj[index]}
-                      handleEducationDelete={handleEducationDelete}
-                    />
-                  );
-                })}
-            <GradientButton
-              variant="outlined"
-              type="button"
-              onClick={renderEducation}
-              sx={{ borderRadius: "30px", width: "100%" }}
-              // sx={{ width: "1rem", height: "1rem", borderRadius: "50%" }}
-            >
-              +
-            </GradientButton>
-          </div>
-        </>
+        <div className="educationMain">
+          {educationObj.length > 0 &&
+            educationObj
+              .filter((obj) => Object.keys(obj).length > 0)
+              .map((obj, index) => (
+                <EducationInput
+                  key={index}
+                  handleEducationChange={handleEducationChange}
+                  index={index}
+                  value={educationObj[index]}
+                  handleEducationDelete={handleEducationDelete}
+                />
+              ))}
+          {educationObj.length === 0 && (
+            <div className="emptyState">
+              <span className="emptyStateIcon">🎓</span>
+              <p className="emptyStateText">No education entries added yet.</p>
+              <p className="emptyStateHint">Click the button below to add your qualifications.</p>
+            </div>
+          )}
+          <GradientButton variant="outlined" type="button" onClick={renderEducation} sx={{ borderRadius: "30px", width: "100%" }}>
+            + Add Education
+          </GradientButton>
+        </div>
       );
-      headingTitle = "Education";
       break;
+
     case 4:
       currentPageComponent = (
-        <>
-          <div className="skillLang">
-            <SkillsInput skills={skills} setSkills={setSkills} />
-            <LanguageInput language={language} setLanguage={setLanguage} />
-            <InterestsInput interests={interests} setInterests={setInterests} />
-          </div>
-        </>
+        <div className="skillLang">
+          <SkillsInput skills={skills} setSkills={setSkills} />
+          <LanguageInput language={language} setLanguage={setLanguage} />
+          <InterestsInput interests={interests} setInterests={setInterests} />
+        </div>
       );
-      headingTitle = "Skills, Languages and Interests";
       break;
+
     case 5:
       currentPageComponent = (
-        <>
-          <div className="workExperienceProjMain">
-            {projectObj.length &&
-              projectObj
-                .filter((obj) => Object.keys(obj).length > 0)
-                .map((obj, index) => {
-                  return (
-                    <>
-                      <ProjectsInput
-                        key={index}
-                        index={index}
-                        setProjectObj={setProjectObj}
-                        projectObj={projectObj}
-                        value={projectObj[index]}
-                        handleProjDelete={handleProjDelete}
-                      />
-                      <div
-                        className="workexpprojdelete"
-                        onClick={() => {
-                          handleProjDelete(index);
-                        }}
-                      >
-                        <IconButton aria-label="delete">
-                          <WhiteDeleteIcon />
-                        </IconButton>
-                      </div>
-                    </>
-                  );
-                })}
-            <GradientButton
-              variant="outlined"
-              type="button"
-              onClick={renderProjects}
-              sx={{ borderRadius: "30px" }}
-            >
-              +
-            </GradientButton>
-          </div>
-        </>
+        <div className="workExperienceProjMain">
+          {projectObj.length > 0 &&
+            projectObj
+              .filter((obj) => Object.keys(obj).length > 0)
+              .map((obj, index) => (
+                <div key={index} className="entryCardWrapper">
+                  <ProjectsInput
+                    index={index}
+                    setProjectObj={setProjectObj}
+                    projectObj={projectObj}
+                    value={projectObj[index]}
+                    handleProjDelete={handleProjDelete}
+                  />
+                  <div className="entryDeleteBtn" onClick={() => handleProjDelete(index)}>
+                    <WhiteDeleteIcon />
+                  </div>
+                </div>
+              ))}
+          {projectObj.length === 0 && (
+            <div className="emptyState">
+              <span className="emptyStateIcon">🚀</span>
+              <p className="emptyStateText">No projects added yet.</p>
+              <p className="emptyStateHint">Click the button below to showcase your work.</p>
+            </div>
+          )}
+          <GradientButton variant="outlined" type="button" onClick={renderProjects} sx={{ borderRadius: "30px" }}>
+            + Add Project
+          </GradientButton>
+        </div>
       );
-      headingTitle = "Projects";
-
       break;
+
     case 6:
       currentPageComponent = (
-        <>
-          <div className="achievementMain">
-            {achievementObj.length &&
-              achievementObj.map((obj, index) => {
-                return (
-                  <AchievementInput
-                    key={index}
-                    handleAchievementChange={handleAchievementChange}
-                    index={index}
-                    value={achievementObj[index]}
-                    handleAchievementDelete={handleAchievementDelete}
-                  />
-                );
-              })}
-            <GradientButton
-              variant="outlined"
-              type="button"
-              onClick={renderAchievement}
-              sx={{ borderRadius: "30px", width: "100%" }}
-            >
-              +
-            </GradientButton>
-          </div>
-        </>
+        <div className="achievementMain">
+          {achievementObj.length > 0 &&
+            achievementObj.map((obj, index) => (
+              <AchievementInput
+                key={index}
+                handleAchievementChange={handleAchievementChange}
+                index={index}
+                value={achievementObj[index]}
+                handleAchievementDelete={handleAchievementDelete}
+              />
+            ))}
+          {achievementObj.length === 0 && (
+            <div className="emptyState">
+              <span className="emptyStateIcon">🏆</span>
+              <p className="emptyStateText">No achievements added yet.</p>
+              <p className="emptyStateHint">Click the button below to add your awards & milestones.</p>
+            </div>
+          )}
+          <GradientButton variant="outlined" type="button" onClick={renderAchievement} sx={{ borderRadius: "30px", width: "100%" }}>
+            + Add Achievement
+          </GradientButton>
+        </div>
       );
-      headingTitle = "Achievements";
       break;
 
     default:
       currentPageComponent = null;
   }
-  //Render function
+
   return (
-    <>
+    <div className="cvinput_page">
       <Navbar />
       <div className="cvinput_box">
-        <div className="heading">{headingTitle}</div>
-        {/* <div className="detailsBox"> */}
+
+        {/* Step indicator pills */}
+        <div className="stepIndicatorBar">
+          {STEPS.map((step, i) => {
+            const stepNum = i + 1;
+            const isActive = stepNum === currentPage;
+            const isCompleted = stepNum < currentPage;
+            return (
+              <div
+                key={stepNum}
+                className={`stepPill${isActive ? " stepPill--active" : ""}${isCompleted ? " stepPill--done" : ""}`}
+              >
+                <span className="stepPillIcon">{isCompleted ? "✓" : step.icon}</span>
+                <span className="stepPillLabel">{step.label}</span>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Section heading */}
+        <div className="sectionHeading">
+          <div className="sectionHeadingTitle">{sectionMeta[currentPage].title}</div>
+          <div className="sectionHeadingSubtitle">{sectionMeta[currentPage].subtitle}</div>
+        </div>
+
+        {/* Progress bar */}
         <div className="linearprogress">
           <LinearWithValueLabel currentPage={currentPage} />
         </div>
+
         <form action="/" className="cvinputform" method="post">
           <div className="detailsComponent">{currentPageComponent}</div>
 
-          {/* Pagination buttons */}
+          {/* Pagination */}
           <div className="pagination">
             {currentPage !== 1 && (
-              <GradientButton
-                variant="outlined"
-                onClick={prevPage}
-                sx={{ borderRadius: "30px", border: "2px solid #ce4949" }}
-              >
-                Previous
+              <GradientButton variant="outlined" onClick={prevPage} sx={{ borderRadius: "999px", border: "none" }}>
+                ← Previous
               </GradientButton>
             )}
+            <div className="paginationSpacer" />
+            <span className="paginationPageLabel">{currentPage} / 6</span>
             {currentPage !== 6 ? (
-              <GradientButton
-                variant="outlined"
-                onClick={nextPage}
-                sx={{ borderRadius: "30px", border: "2px solid #ce4949" }}
-              >
-                Next
+              <GradientButton variant="outlined" onClick={nextPage} sx={{ borderRadius: "999px", border: "none" }}>
+                Next →
               </GradientButton>
             ) : (
-              <GradientButton
-                variant="contained"
-                type="button"
-                onClick={handleFormSubmit}
-                sx={{
-                  borderRadius: "30px",
-                  backgroundColor: "",
-                  border: "2px solid #ce4949",
-                  background:
-                    "linear-gradient(90deg, #ce4949, transparent) #D5CEA3",
-                }}
-              >
-                Submit
+              <GradientButton variant="contained" type="button" onClick={handleFormSubmit} sx={{ borderRadius: "999px", border: "none" }}>
+                Save & View CV ✓
               </GradientButton>
             )}
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }
+
 export default CVInputBox;

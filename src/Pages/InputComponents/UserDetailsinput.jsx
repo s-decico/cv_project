@@ -1,9 +1,6 @@
 import React from "react";
-import { TextField } from "@mui/material";
 import {
   WhiteTextField,
-  GradientButton,
-  WhiteDeleteIcon,
 } from "../../MUIStyledComponents";
 import "../cv.css";
 

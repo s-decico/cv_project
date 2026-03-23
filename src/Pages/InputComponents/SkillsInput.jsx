@@ -1,68 +1,65 @@
 import React, { useState } from "react";
-import { TextField, Button, Divider } from "@mui/material";
-import {
-  WhiteTextField,
-  GradientButton,
-  WhiteDeleteIcon,
-  WhiteAddIcon,
-} from "../../MUIStyledComponents";
-import IconButton from "@mui/material/IconButton";
-import { Add, Delete } from "@mui/icons-material";
+import { WhiteTextField } from "../../MUIStyledComponents";
+import "../cv.css";
 
 function SkillsInput({ skills, setSkills }) {
   const [inputValue, setInputValue] = useState("");
 
   const handleSkillDelete = (index) => {
-    console.log(index);
-    let temp = [...skills];
+    const temp = [...skills];
     temp.splice(index, 1);
     setSkills(temp);
-    console.log(temp);
   };
+
+  const handleAdd = () => {
+    const trimmed = inputValue.trim();
+    if (trimmed) {
+      setSkills([...skills, trimmed]);
+      setInputValue("");
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleAdd();
+    }
+  };
+
   return (
-    <>
-      <div className="skillLangIntMain">
-        <div className="skillLangIntInput">
-          <WhiteTextField
-            id="outlined-basic"
-            label="Type your skill"
-            variant="outlined"
-            type="text"
-            value={inputValue}
-            onChange={(e) => {
-              setInputValue(e.target.value);
-            }}
-          />
-          <IconButton
-            aria-label="add"
-            onClick={() => {
-              setSkills([...skills, inputValue]);
-              setInputValue("");
-            }}
-          >
-            <Add />
-          </IconButton>
-        </div>
-        <div className="skillLangIntdisplay">
-          {skills.map((x, index) => {
-            return (
-              <>
-                <div className="skillLangIntdisplayunit">
-                  {x}
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => handleSkillDelete(index)}
-                  >
-                    <Delete />
-                  </IconButton>
-                </div>
-                <Divider />
-              </>
-            );
-          })}
-        </div>
+    <div className="skillLangIntMain">
+      <div className="skillLangIntTitle">⚡ Skills</div>
+      <div className="skillLangIntInput">
+        <WhiteTextField
+          label="Add a skill"
+          variant="outlined"
+          size="small"
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+        <button className="addChipBtn" onClick={handleAdd} type="button">
+          + Add
+        </button>
       </div>
-    </>
+      {skills.length > 0 && (
+        <div className="skillLangIntdisplay">
+          {skills.map((x, index) => (
+            <div key={index} className="skillChip">
+              <span>{x}</span>
+              <button
+                className="chipDeleteBtn"
+                onClick={() => handleSkillDelete(index)}
+                type="button"
+              >
+                ×
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

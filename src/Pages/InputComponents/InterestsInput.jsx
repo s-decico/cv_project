@@ -1,68 +1,65 @@
 import React, { useState } from "react";
-import { TextField, Button, Divider } from "@mui/material";
-import {
-  WhiteTextField,
-  GradientButton,
-  WhiteDeleteIcon,
-  WhiteAddIcon,
-} from "../../MUIStyledComponents";
-import IconButton from "@mui/material/IconButton";
-import { Add, Delete } from "@mui/icons-material";
+import { WhiteTextField } from "../../MUIStyledComponents";
+import "../cv.css";
 
 function InterestsInput({ interests, setInterests }) {
   const [inputValue, setInputValue] = useState("");
+
   const handleInterestDelete = (index) => {
-    console.log(index);
-    let temp = [...interests];
+    const temp = [...interests];
     temp.splice(index, 1);
     setInterests(temp);
-    console.log(temp);
   };
-  return (
-    <>
-      <div className="skillLangIntMain">
-        <div className="skillLangIntInput">
-          <WhiteTextField
-            id="outlined-basic"
-            label="Type your interests"
-            variant="outlined"
-            type="text"
-            value={inputValue}
-            onChange={(e) => {
-              setInputValue(e.target.value);
-            }}
-          />
 
-          <IconButton
-            aria-label="add"
-            onClick={() => {
-              setInterests([...interests, inputValue]);
-              setInputValue("");
-            }}
-          >
-            <Add />
-          </IconButton>
-        </div>
-        <div className="skillLangIntdisplay">
-          {interests.map((x, index) => {
-            return (
-              <>
-                <div className="skillLangIntdisplayunit">
-                  {x}
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => handleInterestDelete(index)}
-                  >
-                    <Delete />
-                  </IconButton>
-                </div>
-                <Divider />
-              </>
-            );
-          })}
-        </div>
+  const handleAdd = () => {
+    const trimmed = inputValue.trim();
+    if (trimmed) {
+      setInterests([...interests, trimmed]);
+      setInputValue("");
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleAdd();
+    }
+  };
+
+  return (
+    <div className="skillLangIntMain">
+      <div className="skillLangIntTitle">✨ Interests</div>
+      <div className="skillLangIntInput">
+        <WhiteTextField
+          label="Add an interest"
+          variant="outlined"
+          size="small"
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+        <button className="addChipBtn" onClick={handleAdd} type="button">
+          + Add
+        </button>
       </div>
-    </>
+      {interests.length > 0 && (
+        <div className="skillLangIntdisplay">
+          {interests.map((x, index) => (
+            <div key={index} className="skillChip">
+              <span>{x}</span>
+              <button
+                className="chipDeleteBtn"
+                onClick={() => handleInterestDelete(index)}
+                type="button"
+              >
+                ×
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

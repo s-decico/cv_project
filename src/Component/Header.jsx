@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "./Navbar";
 import User from "./User";
 
 function Header() {
@@ -7,7 +6,6 @@ function Header() {
     <div>
       <div className="header">
         <div className="logo">RESUMATE</div>
-
         <User />
       </div>
     </div>
