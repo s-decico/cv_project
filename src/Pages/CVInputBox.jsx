@@ -272,14 +272,7 @@ function CVInputBox() {
   const nextPage = () => setCurrentPage((p) => p + 1);
   const prevPage = () => setCurrentPage((p) => p - 1);
 
-  const STEPS = [
-    { label: "Personal", icon: "👤" },
-    { label: "Work", icon: "💼" },
-    { label: "Education", icon: "🎓" },
-    { label: "Skills", icon: "⚡" },
-    { label: "Projects", icon: "🚀" },
-    { label: "Awards", icon: "🏆" },
-  ];
+
 
   const sectionMeta = {
     1: { title: "Personal Details", subtitle: "Let's start with the basics — who are you?" },
@@ -444,23 +437,7 @@ function CVInputBox() {
       <Navbar />
       <div className="cvinput_box">
 
-        {/* Step indicator pills */}
-        <div className="stepIndicatorBar">
-          {STEPS.map((step, i) => {
-            const stepNum = i + 1;
-            const isActive = stepNum === currentPage;
-            const isCompleted = stepNum < currentPage;
-            return (
-              <div
-                key={stepNum}
-                className={`stepPill${isActive ? " stepPill--active" : ""}${isCompleted ? " stepPill--done" : ""}`}
-              >
-                <span className="stepPillIcon">{isCompleted ? "✓" : step.icon}</span>
-                <span className="stepPillLabel">{step.label}</span>
-              </div>
-            );
-          })}
-        </div>
+
 
         {/* Section heading */}
         <div className="sectionHeading">
