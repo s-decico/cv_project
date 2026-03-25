@@ -525,7 +525,7 @@
   color: #1a1a2e;
   width: min(820px, 92%);
   margin: 0 auto 3rem;
-  padding: 2rem;
+  padding: 1.5rem 2rem;
   border-radius: var(--radius-lg);
   box-shadow: 0 8px 48px rgba(0, 0, 0, 0.6);
   font-family: 'Inter', -apple-system, sans-serif;
@@ -547,8 +547,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0 0.75rem;
-  font-size: 2rem;
+  padding: 0.5rem 0 0.4rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: #111;
   font-family: 'Space Grotesk', 'Inter', sans-serif;
@@ -559,16 +559,16 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0.25rem 2rem 0.75rem;
+  padding: 0.15rem 2rem 0.5rem;
 }
 
 .basicDetailsElement {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.3rem;
   color: #444;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 .basicDetailsElementR1 {
@@ -588,15 +588,15 @@
 .workExperienceBox {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  padding: 0.5rem 0;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
   page-break-inside: avoid;
 }
 
 .workExpElement {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3rem;
 }
 
 .workExpHeaderBox {
@@ -625,8 +625,9 @@
 
 .workexpDetailsElement {
   list-style-type: disc;
-  margin-left: 1.2rem;
-  font-size: 0.875rem;
+  margin-left: 1rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
   color: #333;
 }
 
@@ -639,13 +640,13 @@
 }
 
 .qualificationBox {
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: #111;
 }
 
 .schoolBox {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #555;
 }
 
@@ -688,13 +689,13 @@
 .projectBox {
   display: flex;
   flex-direction: column;
-  padding: 0.5rem 0;
-  gap: 0.75rem;
+  padding: 0.35rem 0;
+  gap: 0.5rem;
   page-break-inside: avoid;
 }
 
 .projectnameBox {
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: #111;
 }
@@ -708,7 +709,7 @@
 .projectElement {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.15rem;
 }
 
 .projectinfoBox {
@@ -725,8 +726,9 @@
 
 .projectDetailsBox {
   list-style-type: disc;
-  margin-left: 1.2rem;
-  font-size: 0.875rem;
+  margin-left: 1rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
   color: #333;
 }
 
@@ -739,13 +741,13 @@
 }
 
 .achievementTitleBox {
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: #111;
 }
 
 .achievementSubtitleBox {
-  font-size: 0.875rem;
+  font-size: 0.82rem;
   color: #555;
 }
 
@@ -754,8 +756,8 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  gap: 4rem;
-  padding: 0.5rem 0 1rem;
+  gap: 2.5rem;
+  padding: 0.35rem 0 0.75rem;
 }
 
 .interestBox,
@@ -775,7 +777,7 @@
 
 .languageElement,
 .interestElement {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #444;
 }
 
@@ -789,7 +791,7 @@
   width: 100%;
   max-width: 850px; /* A4 aspect ratio approx */
   margin: 0 auto;
-  padding: 3rem 3.5rem;
+  padding: 1.4rem 2.75rem;
   font-family: 'Inter', "Times New Roman", serif;
   box-sizing: border-box;
   box-shadow: 0 4px 25px rgba(0,0,0,0.4);
@@ -798,26 +800,26 @@
 
 .ats-header {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.6rem;
 }
 
 .ats-name {
-  font-size: 2.2rem;
+  font-size: 1.85rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: #000;
 }
 
 .ats-contact {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #333;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.45rem;
 }
 
 .ats-contact-item {
@@ -838,23 +840,23 @@
 }
 
 .ats-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.8rem;
   page-break-inside: avoid;
 }
 
 .ats-section-title {
-  font-size: 1.15rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #000;
   text-transform: uppercase;
   border-bottom: 1.5px solid #000;
-  padding-bottom: 0.2rem;
-  margin-bottom: 0.8rem;
+  padding-bottom: 0.1rem;
+  margin-bottom: 0.4rem;
   letter-spacing: 0.05em;
 }
 
 .ats-entry {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   page-break-inside: avoid;
 }
 
@@ -862,42 +864,42 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.1rem;
 }
 
 .ats-entry-title {
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   color: #000;
 }
 
 .ats-entry-subtitle {
   font-style: italic;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #222;
 }
 
 .ats-entry-date {
-  font-size: 0.95rem;
+  font-size: 0.82rem;
   color: #333;
   font-weight: 500;
 }
 
 .ats-entry-details {
   margin: 0;
-  padding-left: 1.2rem;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  padding-left: 1rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
   color: #222;
 }
 
 .ats-entry-details li {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.05rem;
 }
 
 .ats-skills-list {
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 0.82rem;
+  line-height: 1.35;
   color: #222;
 }
 
