@@ -52,6 +52,10 @@ function WorkExperienceInput({
     setDetails(temp);
   };
 
+  const isCurrentlyWorking = value?.currentlyWorking !== undefined
+    ? value.currentlyWorking
+    : (!!value?.startdate && !value?.enddate);
+
   return (
     <div className="workExperienceProjSub">
       {/* Left column: fields */}
@@ -107,11 +111,11 @@ function WorkExperienceInput({
                   name="enddate"
                   value={value?.enddate || ""}
                   onChange={(event) => handleWorkExpChange(event)}
-                  disabled={!!value?.startdate && !value?.enddate}
+                  disabled={isCurrentlyWorking}
                   sx={{ 
                     width: "100%", 
-                    opacity: (value?.startdate && !value?.enddate) ? 0.4 : 1,
-                    pointerEvents: (value?.startdate && !value?.enddate) ? "none" : "auto" 
+                    opacity: isCurrentlyWorking ? 0.4 : 1,
+                    pointerEvents: isCurrentlyWorking ? "none" : "auto" 
                   }}
                 />
               </span>
@@ -119,11 +123,17 @@ function WorkExperienceInput({
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={!!value?.startdate && !value?.enddate}
+                  checked={isCurrentlyWorking}
                   onChange={(e) => {
-                    if (e.target.checked) {
-                      handleWorkExpChange({ target: { name: "enddate", value: "" } });
+                    const isChecked = e.target.checked;
+                    const updatedWorkExpObj = [...workExperienceObj];
+                    const workexpObjtemp = { ...updatedWorkExpObj[index] };
+                    workexpObjtemp.currentlyWorking = isChecked;
+                    if (isChecked) {
+                      workexpObjtemp.enddate = "";
                     }
+                    updatedWorkExpObj[index] = workexpObjtemp;
+                    setworkExperienceObj(updatedWorkExpObj);
                   }}
                   sx={{
                     color: "rgba(124, 106, 247, 0.6)",
