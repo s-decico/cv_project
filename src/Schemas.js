@@ -21,6 +21,7 @@ const educationSchema = new mongoose.Schema({
   qualification: String,
   school: String,
   doj: String,
+  marks: String,
 });
 
 const projectSchema = new mongoose.Schema({

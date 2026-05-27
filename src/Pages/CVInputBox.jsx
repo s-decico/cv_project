@@ -14,7 +14,9 @@ import WorkExperienceInput from "./InputComponents/WorkExperienceInput";
 import axios from "axios";
 import cookie from "js-cookie";
 import Navbar from "../Component/Navbar";
-import { WhiteDeleteIcon, GradientButton } from "../MUIStyledComponents";
+import { WhiteDeleteIcon, GradientButton, OutlineButton } from "../MUIStyledComponents";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import { STRINGS } from "../Constants/strings";
 import UserDetailsInput from "./InputComponents/UserDetailsinput";
 
@@ -54,6 +56,9 @@ function CVInputBox() {
                   if (jsonData.Skills.length > 0) setSkills(jsonData.Skills);
                   if (jsonData.Language.length > 0) setLanguage(jsonData.Language);
                   if (jsonData.Interest.length > 0) setInterests(jsonData.Interest);
+                  if (jsonData.DraftStage) {
+                    setCurrentPage(jsonData.DraftStage);
+                  }
                 }
               }
             })
@@ -66,6 +71,7 @@ function CVInputBox() {
 
   const [userDetails, setUserDetails] = useState({});
   const [fullDetails, setfullDetails] = useState();
+  const [draftSavedOpen, setDraftSavedOpen] = useState(false);
   let tempobj = {};
 
   const [workExperienceObj, setworkExperienceObj] = useState([]);
@@ -80,7 +86,7 @@ function CVInputBox() {
     setworkExperienceObj((prev) => [...prev, { designation: "", companyname: "", details: [] }]);
   };
   const renderEducation = () => {
-    setEducationObj((prev) => [...prev, { qualification: "", school: "", doj: "" }]);
+    setEducationObj((prev) => [...prev, { qualification: "", school: "", doj: "", marks: "" }]);
   };
   const renderProjects = () => {
     setProjectObj((prev) => [...prev, { projectname: "", projectyear: "", details: [] }]);
@@ -143,6 +149,63 @@ function CVInputBox() {
       .catch(function (err) { console.log(err); });
   };
 
+  const handleSaveDraft = () => {
+    const cleanWork = workExperienceObj.filter(obj => 
+      obj.designation?.trim() || obj.companyname?.trim() || obj.startdate?.trim() || obj.enddate?.trim() || obj.details?.some(d => typeof d === 'string' && d.trim())
+    );
+    cleanWork.forEach(obj => { obj.details = obj.details?.filter(d => typeof d === 'string' && d.trim()) || [] });
+
+    const cleanEdu = educationObj.filter(obj => 
+      obj.qualification?.trim() || obj.school?.trim() || obj.doj?.trim() || obj.marks?.trim()
+    );
+
+    const cleanProj = projectObj.filter(obj => 
+      obj.projectname?.trim() || obj.projectyear?.trim() || obj.projectlink?.trim() || obj.details?.some(d => typeof d === 'string' && d.trim())
+    );
+    cleanProj.forEach(obj => { obj.details = obj.details?.filter(d => typeof d === 'string' && d.trim()) || [] });
+
+    const cleanAchieve = achievementObj.filter(obj => 
+      obj.title?.trim() || obj.subtitle?.trim()
+    );
+
+    const cleanSkills = skills.filter(s => typeof s === 'string' && s.trim());
+    const cleanLang = language.filter(s => typeof s === 'string' && s.trim());
+    const cleanInt = interests.filter(s => typeof s === 'string' && s.trim());
+
+    setworkExperienceObj(cleanWork);
+    setEducationObj(cleanEdu);
+    setProjectObj(cleanProj);
+    setAchievementObj(cleanAchieve);
+    setSkills(cleanSkills);
+    setLanguage(cleanLang);
+    setInterests(cleanInt);
+
+    const draftData = {
+      BasicDetails: userDetails,
+      WorkExperience: cleanWork,
+      Education: cleanEdu,
+      Project: cleanProj,
+      Achievement: cleanAchieve,
+      Language: cleanLang,
+      Interest: cleanInt,
+      Skills: cleanSkills,
+      DraftStage: currentPage,
+    };
+
+    const url = process.env.REACT_APP_API_URL + "/cvinput";
+    axios
+      .post(url, draftData, {
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        withCredentials: true,
+      })
+      .then(function (res) { 
+        if (res.status === 200) {
+          setDraftSavedOpen(true);
+        }
+      })
+      .catch(function (err) { console.log(err); });
+  };
+
   const handleFormSubmit = () => {
     // 1. Scrub everything that is entirely empty
     const cleanWork = workExperienceObj.filter(obj => 
@@ -151,7 +214,7 @@ function CVInputBox() {
     cleanWork.forEach(obj => { obj.details = obj.details?.filter(d => typeof d === 'string' && d.trim()) || [] });
 
     const cleanEdu = educationObj.filter(obj => 
-      obj.qualification?.trim() || obj.school?.trim() || obj.doj?.trim()
+      obj.qualification?.trim() || obj.school?.trim() || obj.doj?.trim() || obj.marks?.trim()
     );
 
     const cleanProj = projectObj.filter(obj => 
@@ -237,7 +300,7 @@ function CVInputBox() {
   let isEducationValid = true;
   educationObj.forEach((edu, idx) => {
     let err = {};
-    if (Object.keys(edu).length > 0 && (edu.qualification || edu.school || edu.doj)) {
+    if (Object.keys(edu).length > 0 && (edu.qualification || edu.school || edu.doj || edu.marks)) {
       if (!edu.qualification?.trim()) { err.qualification = "Required"; isEducationValid = false; }
       if (!edu.school?.trim()) { err.school = "Required"; isEducationValid = false; }
       if (!edu.doj?.trim()) { err.doj = "Required"; isEducationValid = false; }
@@ -456,12 +519,16 @@ function CVInputBox() {
           {/* Pagination */}
           <div className="pagination">
             {currentPage !== 1 && (
-              <GradientButton variant="outlined" onClick={prevPage} sx={{ borderRadius: "999px", border: "none" }}>
+              <OutlineButton onClick={prevPage} sx={{ borderRadius: "999px" }}>
                 ← Previous
-              </GradientButton>
+              </OutlineButton>
             )}
             <div className="paginationSpacer" />
             <span className="paginationPageLabel">{currentPage} / 6</span>
+            <OutlineButton type="button" onClick={handleSaveDraft} sx={{ borderRadius: "999px" }}>
+              {STRINGS.UI.SAVE_DRAFT}
+            </OutlineButton>
+            <div className="paginationSpacer" />
             {currentPage !== 6 ? (
               <GradientButton variant="outlined" disabled={getIsNextDisabled()} onClick={nextPage} sx={{ borderRadius: "999px", border: "none" }}>
                 {STRINGS.UI.NEXT}
@@ -474,6 +541,16 @@ function CVInputBox() {
           </div>
         </form>
       </div>
+      <Snackbar
+        open={draftSavedOpen}
+        autoHideDuration={3000}
+        onClose={() => setDraftSavedOpen(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={() => setDraftSavedOpen(false)} severity="success" sx={{ width: "100%", borderRadius: "10px" }}>
+          Draft saved successfully!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
