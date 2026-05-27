@@ -40,6 +40,14 @@ function EducationInput({ handleEducationChange, index, value, handleEducationDe
           error={!!errors?.doj}
           helperText={errors?.doj}
         />
+        <WhiteTextField
+          label={STRINGS.LABELS.MARKS}
+          variant="outlined"
+          type="text"
+          name="marks"
+          value={value?.marks || ""}
+          onChange={(event) => handleEducationChange(event, index)}
+        />
       </div>
       <div className="inlineDeleteBtn" onClick={() => handleEducationDelete(index)}>
         <WhiteDeleteIcon />

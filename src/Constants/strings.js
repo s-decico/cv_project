@@ -40,6 +40,7 @@ export const STRINGS = {
     QUALIFICATION: "Qualification",
     SCHOOL: "School / University",
     YEAR_PERIOD: "Year / Period",
+    MARKS: "Marks",
     PROJECT_NAME: "Project Name",
     PROJECT_YEAR: "Year",
     PROJECT_LINK: "Project Link (URL)",
@@ -49,6 +50,7 @@ export const STRINGS = {
   UI: {
     NEXT: "Next →",
     SAVE_CV: "Save & View CV ✓",
+    SAVE_DRAFT: "Save as Draft",
     ADD_WORK: "+ Add Work Experience",
     ADD_EDU: "+ Add Education",
     ADD_PROJ: "+ Add Project",

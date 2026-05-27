@@ -292,6 +292,9 @@ function CVBox() {
                               {edu.school && (
                                 <span>, <span className="ats-entry-subtitle">{edu.school}</span></span>
                               )}
+                              {edu.marks && (
+                                <span className="ats-entry-subtitle"> ({edu.marks})</span>
+                              )}
                             </div>
                             <div className="ats-entry-date">{formatMonthYear(edu.doj)}</div>
                           </div>
